@@ -4,6 +4,5 @@ import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 
 class GetSuperHeroes(private val superHeroesRepository: SuperHeroRepository) {
-
-    operator fun invoke(): List<SuperHero> = superHeroesRepository.getAllSuperHeroes()
+    suspend operator fun invoke(): List<SuperHero> = superHeroesRepository.getAllSuperHeroes()
 }

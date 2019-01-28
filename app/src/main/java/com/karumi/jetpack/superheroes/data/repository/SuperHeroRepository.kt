@@ -1,12 +1,11 @@
 package com.karumi.jetpack.superheroes.data.repository
 
-import android.util.Log
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
+import kotlinx.coroutines.delay
 
 class SuperHeroRepository {
     companion object {
         private const val BIT_TIME = 1500L
-        private const val TAG = "SuperHeroRepository"
     }
 
     private val superHeroes: MutableMap<String, SuperHero>
@@ -15,28 +14,24 @@ class SuperHeroRepository {
         superHeroes = fakeData().associateBy { it.id }.toMutableMap()
     }
 
-    fun getAllSuperHeroes(): List<SuperHero> {
+    suspend fun getAllSuperHeroes(): List<SuperHero> {
         waitABit()
         return superHeroes.values.toList()
     }
 
-    operator fun get(id: String): SuperHero? {
+    suspend fun get(id: String): SuperHero? {
         waitABit()
         return superHeroes[id]
     }
 
-    fun save(superHero: SuperHero): SuperHero {
+    suspend fun save(superHero: SuperHero): SuperHero {
         waitABit()
         superHeroes[superHero.id] = superHero
         return superHero
     }
 
-    private fun waitABit() {
-        try {
-            Thread.sleep(BIT_TIME)
-        } catch (e: InterruptedException) {
-            Log.d(TAG, "wait a bit failed.", e)
-        }
+    private suspend fun waitABit() {
+        delay(BIT_TIME)
     }
 
     private fun fakeData(): List<SuperHero> {
