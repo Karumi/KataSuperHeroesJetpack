@@ -11,7 +11,7 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroByName
+import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroDetailPresenter
 import com.karumi.jetpack.superheroes.ui.utils.setImageBackground
 import kotlinx.android.synthetic.main.super_hero_detail_activity.*
@@ -19,11 +19,11 @@ import kotlinx.android.synthetic.main.super_hero_detail_activity.*
 class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
 
     companion object {
-        private const val SUPER_HERO_NAME_KEY = "super_hero_name_key"
+        private const val SUPER_HERO_ID_KEY = "super_hero_id_key"
 
-        fun open(activity: Activity, superHeroName: String) {
+        fun open(activity: Activity, superHeroId: String) {
             val intent = Intent(activity, SuperHeroDetailActivity::class.java)
-            intent.putExtra(SUPER_HERO_NAME_KEY, superHeroName)
+            intent.putExtra(SUPER_HERO_ID_KEY, superHeroId)
             activity.startActivity(intent)
         }
     }
@@ -32,22 +32,22 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     override val layoutId: Int = R.layout.super_hero_detail_activity
     override val toolbarView: Toolbar
         get() = toolbar
-    private val superHeroName: String
-        get() = intent?.extras?.getString(SUPER_HERO_NAME_KEY) ?: ""
+    private val superHeroId: String
+        get() = intent?.extras?.getString(SUPER_HERO_ID_KEY) ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         edit_super_hero.setOnClickListener {
             EditSuperHeroActivity.open(
                 this@SuperHeroDetailActivity,
-                superHeroName
+                superHeroId
             )
         }
     }
 
     override fun preparePresenter(intent: Intent?) {
-        title = superHeroName
-        presenter.preparePresenter(superHeroName)
+        title = superHeroId
+        presenter.preparePresenter(superHeroId)
     }
 
     override fun close() = finish()
@@ -77,8 +77,8 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
                 instance()
             )
         }
-        bind<GetSuperHeroByName>() with provider {
-            GetSuperHeroByName(
+        bind<GetSuperHeroById>() with provider {
+            GetSuperHeroById(
                 instance()
             )
         }

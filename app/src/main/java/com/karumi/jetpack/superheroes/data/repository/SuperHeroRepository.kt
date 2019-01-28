@@ -9,20 +9,26 @@ class SuperHeroRepository {
         private const val TAG = "SuperHeroRepository"
     }
 
-    private val superHeroes: List<SuperHero>
+    private val superHeroes: MutableMap<String, SuperHero>
 
     init {
-        superHeroes = fakeData()
+        superHeroes = fakeData().associateBy { it.id }.toMutableMap()
     }
 
     fun getAllSuperHeroes(): List<SuperHero> {
         waitABit()
-        return superHeroes
+        return superHeroes.values.toList()
     }
 
-    fun getByName(name: String): SuperHero {
+    operator fun get(id: String): SuperHero? {
         waitABit()
-        return superHeroes.first { it.name == name }
+        return superHeroes[id]
+    }
+
+    fun save(superHero: SuperHero): SuperHero {
+        waitABit()
+        superHeroes[superHero.id] = superHero
+        return superHero
     }
 
     private fun waitABit() {
@@ -36,6 +42,7 @@ class SuperHeroRepository {
     private fun fakeData(): List<SuperHero> {
         return listOf(
             SuperHero(
+                id = "ScarletWitch",
                 name = "Scarlet Witch",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg",
                 isAvenger = false,
@@ -48,6 +55,7 @@ class SuperHeroRepository {
                     |""".trimMargin()
             ),
             SuperHero(
+                id = "IronMan",
                 name = "Iron Man",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/c/60/55b6a28ef24fa.jpg",
                 isAvenger = true,
@@ -59,6 +67,7 @@ class SuperHeroRepository {
                     |""".trimMargin()
             ),
             SuperHero(
+                id = "Wolverine",
                 name = "Wolverine",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/00/537bcb1133fd7.jpg",
                 isAvenger = false,
@@ -69,6 +78,7 @@ class SuperHeroRepository {
                         |""".trimMargin()
             ),
             SuperHero(
+                id = "Hulk",
                 name = "Hulk",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/e/e0/537bafa34baa9.jpg",
                 isAvenger = true,
@@ -80,6 +90,7 @@ class SuperHeroRepository {
                     |""".trimMargin()
             ),
             SuperHero(
+                id = "Storm",
                 name = "Storm",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/c/b0/537bc5f8a8df0.jpg",
                 isAvenger = false,
@@ -88,8 +99,8 @@ class SuperHeroRepository {
                     |all of whom have white hair, blue eyes, and the potential to wield magic.
                     |""".trimMargin()
             ),
-
             SuperHero(
+                id = "SpiderMan",
                 name = "Spider-Man",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/6/60/538cd3628a05e.jpg",
                 isAvenger = true,
@@ -100,8 +111,8 @@ class SuperHeroRepository {
                     |"responsibility, Spidey has vowed to use his powers to help people.
                     |""".trimMargin()
             ),
-
             SuperHero(
+                id = "Ultron",
                 name = "Ultron",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/a0/537bc7f6d5d23.jpg",
                 isAvenger = false,
@@ -111,9 +122,9 @@ class SuperHeroRepository {
                     |conquest and the extermination of humanity.
                     |""".trimMargin()
             ),
-
             SuperHero(
-                name = "BlackPanther",
+                id = "BlackPanther",
+                name = "Black Panther",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/03/537ba26276348.jpg",
                 isAvenger = false,
                 description = """
@@ -126,8 +137,8 @@ class SuperHeroRepository {
                     |of Wakanda.
                     |""".trimMargin()
             ),
-
             SuperHero(
+                id = "CaptainAmerica",
                 name = "Captain America",
                 photo = "http://x.annihil.us/u/prod/marvel/i/mg/9/80/537ba5b368b7d.jpg",
                 isAvenger = true,
@@ -139,8 +150,8 @@ class SuperHeroRepository {
                     |superior to any Olympic athlete who ever competed.
                     |""".trimMargin()
             ),
-
             SuperHero(
+                id = "WinterSoldier",
                 name = "Winter Soldier",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/7/40/537bca868687c.jpg",
                 isAvenger = false,
@@ -150,8 +161,8 @@ class SuperHeroRepository {
                     |hand-to-hand combat and extremely accurate marksman. he is fluent in four languages
                     |including German and Russian.""".trimMargin()
             ),
-
             SuperHero(
+                id = "CaptainMarvel",
                 name = "Captain Marvel",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/6/30/537ba61b764b4.jpg",
                 isAvenger = false,
@@ -160,8 +171,8 @@ class SuperHeroRepository {
                     |and the ability to shoot concussive energy bursts from her hands.
                     |""".trimMargin()
             ),
-
             SuperHero(
+                id = "IronFist",
                 name = "Iron Fist",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/6/60/537bb1756cd26.jpg",
                 isAvenger = false,

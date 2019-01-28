@@ -6,23 +6,23 @@ import android.arch.lifecycle.OnLifecycleEvent
 import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroByName
+import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class SuperHeroDetailPresenter(
     view: View,
-    private val getSuperHeroByName: GetSuperHeroByName
+    private val getSuperHeroById: GetSuperHeroById
 ) : LifecycleObserver, CoroutineScope by MainScope() {
 
     private val view: View? by weak(view)
 
-    private lateinit var name: String
+    private lateinit var id: String
 
-    fun preparePresenter(name: String?) {
-        if (name != null) {
-            this.name = name
+    fun preparePresenter(id: String?) {
+        if (id != null) {
+            this.id = id
         } else {
             view?.close()
         }
@@ -35,7 +35,7 @@ class SuperHeroDetailPresenter(
     }
 
     private fun refreshSuperHero() = launch {
-        val superHero = async { getSuperHeroByName(name) }
+        val superHero = async { getSuperHeroById(id) } ?: return@launch
         view?.hideLoading()
         view?.showSuperHero(superHero)
     }

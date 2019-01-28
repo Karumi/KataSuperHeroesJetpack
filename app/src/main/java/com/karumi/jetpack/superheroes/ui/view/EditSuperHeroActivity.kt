@@ -17,11 +17,11 @@ import kotlinx.android.synthetic.main.edit_super_hero_activity.*
 
 class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
     companion object {
-        private const val SUPER_HERO_NAME_KEY = "super_hero_name_key"
+        private const val SUPER_HERO_ID_KEY = "super_hero_id_key"
 
-        fun open(activity: Activity, superHeroName: String) {
+        fun open(activity: Activity, superHeroId: String) {
             val intent = Intent(activity, EditSuperHeroActivity::class.java)
-            intent.putExtra(SUPER_HERO_NAME_KEY, superHeroName)
+            intent.putExtra(SUPER_HERO_ID_KEY, superHeroId)
             activity.startActivity(intent)
         }
     }
@@ -30,12 +30,12 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
     override val presenter: EditSuperHeroPresenter by injector.instance()
     override val toolbarView: Toolbar
         get() = toolbar
-    private val superHeroName: String
-        get() = intent?.extras?.getString(SUPER_HERO_NAME_KEY) ?: ""
+    private val superHeroId: String
+        get() = intent?.extras?.getString(SUPER_HERO_ID_KEY) ?: ""
 
     override fun preparePresenter(intent: Intent?) {
-        title = superHeroName
-        presenter.preparePresenter(superHeroName)
+        title = superHeroId
+        presenter.preparePresenter(superHeroId)
     }
 
     override fun close() {

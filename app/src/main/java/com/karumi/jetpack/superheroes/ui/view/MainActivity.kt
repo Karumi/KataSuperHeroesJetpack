@@ -57,10 +57,10 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         adapter.notifyDataSetChanged()
     }
 
-    override fun openDetail(name: String) {
+    override fun openDetail(id: String) {
         SuperHeroDetailActivity.open(
             activity = this,
-            superHeroName = name
+            superHeroId = id
         )
     }
 

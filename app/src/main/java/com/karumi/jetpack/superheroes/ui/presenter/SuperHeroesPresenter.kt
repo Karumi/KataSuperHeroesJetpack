@@ -35,13 +35,13 @@ class SuperHeroesPresenter(
         }
     }
 
-    fun onSuperHeroClicked(superHero: SuperHero) = view?.openDetail(superHero.name)
+    fun onSuperHeroClicked(superHero: SuperHero) = view?.openDetail(superHero.id)
 
     interface View {
         fun hideLoading()
         fun showSuperHeroes(superHeroes: List<SuperHero>)
         fun showLoading()
         fun showEmptyCase()
-        fun openDetail(name: String)
+        fun openDetail(id: String)
     }
 }
