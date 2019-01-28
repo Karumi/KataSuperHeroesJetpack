@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Kata Jetpack</string>
+  <string name="edit_super_hero_button">Edit Super Hero</string>
 </resources>

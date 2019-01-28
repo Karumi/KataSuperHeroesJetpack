@@ -55,6 +55,8 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         iv_avengers_badge.visibility =
                 if (superHero.isAvenger) View.VISIBLE else View.GONE
         iv_super_hero_photo.setImageBackground(superHero.photo)
+        edit_super_hero.visibility = View.VISIBLE
+        super_hero_background.visibility = View.VISIBLE
     }
 
     override val activityModules = Module(allowSilentOverride = true) {

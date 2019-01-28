@@ -24,21 +24,50 @@
       android:layout_width="match_parent"
       android:layout_height="@dimen/super_hero_detail_header_height"
       app:layout_constraintTop_toBottomOf="@id/toolbar"
+      tools:background="@color/color_primary_dark"
       tools:ignore="ContentDescription" />
+
+    <View
+      android:id="@+id/super_hero_background"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:background="@drawable/super_hero_gradient"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="@id/iv_super_hero_photo"
+      app:layout_constraintEnd_toEndOf="@id/iv_super_hero_photo"
+      app:layout_constraintStart_toStartOf="@id/iv_super_hero_photo"
+      app:layout_constraintTop_toTopOf="@id/iv_super_hero_photo"
+      tools:visibility="visible" />
 
     <ImageView
       android:id="@+id/iv_avengers_badge"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_alignBottom="@id/iv_super_hero_photo"
-      android:layout_alignParentEnd="true"
-      android:layout_alignParentRight="true"
       android:layout_margin="@dimen/default_margin"
       android:src="@mipmap/ic_avengers"
       android:visibility="gone"
       app:layout_constraintBottom_toBottomOf="@id/iv_super_hero_photo"
-      app:layout_constraintEnd_toEndOf="@id/iv_super_hero_photo"
+      app:layout_constraintStart_toStartOf="@id/iv_super_hero_photo"
       tools:ignore="ContentDescription"
+      tools:visibility="visible" />
+
+    <ImageView
+      android:id="@+id/edit_super_hero"
+      android:layout_width="56dp"
+      android:layout_height="56dp"
+      android:layout_marginTop="272dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginRight="16dp"
+      android:clickable="true"
+      android:contentDescription="@string/edit_super_hero_button"
+      android:elevation="2dp"
+      android:focusable="true"
+      android:foreground="?attr/selectableItemBackgroundBorderless"
+      android:src="@drawable/ic_edit"
+      android:visibility="gone"
+      app:layout_constraintEnd_toEndOf="@id/iv_super_hero_photo"
+      app:layout_constraintTop_toTopOf="@id/iv_super_hero_photo"
+      tools:ignore="UnusedAttribute"
       tools:visibility="visible" />
 
     <TextView
@@ -52,7 +81,8 @@
       android:textSize="@dimen/title_text_size"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/iv_super_hero_photo" />
+      app:layout_constraintTop_toBottomOf="@id/iv_super_hero_photo"
+      tools:text="Scarlet Witch" />
 
     <TextView
       android:id="@+id/tv_super_hero_description"
@@ -63,21 +93,24 @@
       android:textSize="@dimen/body_text_size"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/tv_super_hero_name" />
+      app:layout_constraintTop_toBottomOf="@id/tv_super_hero_name"
+      tools:text="Scarlet Witch was born at the Wundagore base of the High Evolutionary, she and her twin brother Pietro were the children of Romani couple Django and Marya Maximoff. The High Evolutionary supposedly abducted the twins when they were babies and experimented on them, once he was disgusted with the results, he returned them to Wundagore, disguised as regular mutants." />
 
     <android.support.v4.widget.ContentLoadingProgressBar
       android:id="@+id/progress_bar"
       style="?android:attr/progressBarStyleLarge"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_centerInParent="true"
       app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
       android:id="@+id/tv_empty_case"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_centerInParent="true"
       android:text="¯\\_(ツ)_/¯"
       android:textColor="@android:color/white"
