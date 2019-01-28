@@ -28,8 +28,8 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         }
     }
 
+    private val presenter: EditSuperHeroPresenter by injector.instance()
     override val layoutId = R.layout.edit_super_hero_activity
-    override val presenter: EditSuperHeroPresenter by injector.instance()
     override val toolbarView: Toolbar
         get() = toolbar
     private val superHeroId: String
@@ -44,6 +44,11 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
                 isAvenger = cb_is_avenger.isChecked
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
     }
 
     override fun preparePresenter(intent: Intent?) {

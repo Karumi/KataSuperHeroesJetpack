@@ -28,7 +28,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         }
     }
 
-    override val presenter: SuperHeroDetailPresenter by injector.instance()
+    private val presenter: SuperHeroDetailPresenter by injector.instance()
     override val layoutId: Int = R.layout.super_hero_detail_activity
     override val toolbarView: Toolbar
         get() = toolbar
@@ -43,6 +43,16 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
                 superHeroId
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun preparePresenter(intent: Intent?) {

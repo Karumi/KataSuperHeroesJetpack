@@ -1,8 +1,5 @@
 package com.karumi.jetpack.superheroes.ui.presenter
 
-import android.arch.lifecycle.Lifecycle.Event.ON_RESUME
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
@@ -10,13 +7,14 @@ import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class EditSuperHeroPresenter(
     view: View,
     private val getSuperHeroById: GetSuperHeroById,
     private val saveSuperHero: SaveSuperHero
-) : LifecycleObserver, CoroutineScope by MainScope() {
+) : CoroutineScope by MainScope() {
 
     private val view: View? by weak(view)
     private lateinit var id: String
@@ -30,10 +28,13 @@ class EditSuperHeroPresenter(
         }
     }
 
-    @OnLifecycleEvent(ON_RESUME)
-    fun update() {
+    fun onResume() {
         view?.showLoading()
         refreshSuperHero()
+    }
+
+    fun onDestroy() {
+        cancel()
     }
 
     fun onSaveSuperHeroSelected(

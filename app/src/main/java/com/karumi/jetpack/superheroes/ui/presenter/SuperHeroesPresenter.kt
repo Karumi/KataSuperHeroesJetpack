@@ -1,29 +1,30 @@
 package com.karumi.jetpack.superheroes.ui.presenter
 
-import android.arch.lifecycle.Lifecycle.Event.ON_RESUME
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class SuperHeroesPresenter(
     view: View,
     private val getSuperHeroes: GetSuperHeroes
-) : LifecycleObserver, CoroutineScope by MainScope() {
+) : CoroutineScope by MainScope() {
 
     private val view: View? by weak(
         view
     )
 
-    @OnLifecycleEvent(ON_RESUME)
-    fun update() {
+    fun onResume() {
         view?.showLoading()
         refreshSuperHeroes()
+    }
+
+    fun onDestroy() {
+        cancel()
     }
 
     private fun refreshSuperHeroes() = launch {

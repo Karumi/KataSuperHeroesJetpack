@@ -1,6 +1,5 @@
 package com.karumi.jetpack.superheroes.ui.view
 
-import android.arch.lifecycle.LifecycleObserver
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
@@ -11,7 +10,6 @@ import com.karumi.jetpack.superheroes.asApp
 abstract class BaseActivity : KodeinAppCompatActivity() {
 
     abstract val layoutId: Int
-    abstract val presenter: LifecycleObserver
     abstract val toolbarView: Toolbar
     abstract val activityModules: Module
 
@@ -20,7 +18,6 @@ abstract class BaseActivity : KodeinAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layoutId)
         setSupportActionBar(toolbarView)
-        lifecycle.addObserver(presenter)
         preparePresenter(intent)
     }
 

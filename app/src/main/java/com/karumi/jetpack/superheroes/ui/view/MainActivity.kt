@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
-    override val presenter: SuperHeroesPresenter by injector.instance()
+    private val presenter: SuperHeroesPresenter by injector.instance()
     private lateinit var adapter: SuperHeroesAdapter
     override val layoutId: Int = R.layout.main_activity
     override val toolbarView: Toolbar
@@ -27,6 +27,16 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         super.onCreate(savedInstanceState)
         initializeAdapter()
         initializeRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onResume()
     }
 
     private fun initializeAdapter() {
