@@ -2,4 +2,7 @@
 <resources>
   <string name="app_name">Kata Jetpack</string>
   <string name="edit_super_hero_button">Edit Super Hero</string>
+  <string name="edit_super_hero_name_hint">Super Hero Name</string>
+  <string name="edit_super_hero_description_hint">Super Hero Description</string>
+  <string name="save_edited_super_hero_button">Save</string>
 </resources>

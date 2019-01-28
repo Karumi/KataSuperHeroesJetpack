@@ -3,4 +3,7 @@
   <color name="color_primary">#FF313A45</color>
   <color name="color_primary_dark">#FF262D36</color>
   <color name="background_color">#FF22282F</color>
+  <color name="white">#FFFFFF</color>
+  <color name="white_50">#88FFFFFF</color>
+  <color name="royal_blue">#3785E6</color>
 </resources>

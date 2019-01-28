@@ -2,6 +2,7 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.github.salomonbrys.kodein.Kodein.Module
@@ -28,13 +29,23 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     }
 
     override val presenter: SuperHeroDetailPresenter by injector.instance()
-
     override val layoutId: Int = R.layout.super_hero_detail_activity
     override val toolbarView: Toolbar
         get() = toolbar
+    private val superHeroName: String
+        get() = intent?.extras?.getString(SUPER_HERO_NAME_KEY) ?: ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        edit_super_hero.setOnClickListener {
+            EditSuperHeroActivity.open(
+                this@SuperHeroDetailActivity,
+                superHeroName
+            )
+        }
+    }
 
     override fun preparePresenter(intent: Intent?) {
-        val superHeroName = intent?.extras?.getString(SUPER_HERO_NAME_KEY)
         title = superHeroName
         presenter.preparePresenter(superHeroName)
     }
