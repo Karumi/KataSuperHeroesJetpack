@@ -43,13 +43,24 @@
         app:layout_constraintTop_toTopOf="@id/iv_super_hero_photo"
         tools:visibility="visible" />
 
+      <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cb_is_avenger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:buttonTint="@color/white"
+        android:text="@string/is_super_hero_an_avenger_checkbox"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/iv_super_hero_photo"
+        tools:ignore="UnusedAttribute" />
+
       <android.support.design.widget.TextInputLayout
         android:id="@+id/til_super_hero_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textColorHint="@color/white_50"
-        app:layout_constraintTop_toBottomOf="@id/iv_super_hero_photo">
+        app:layout_constraintTop_toBottomOf="@id/cb_is_avenger">
 
         <android.support.v7.widget.AppCompatEditText
           android:id="@+id/et_super_hero_name"
@@ -63,7 +74,6 @@
           tools:ignore="UnusedAttribute" />
 
       </android.support.design.widget.TextInputLayout>
-
 
       <android.support.design.widget.TextInputLayout
         android:id="@+id/til_super_hero_description"

@@ -7,17 +7,20 @@ import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
+import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class EditSuperHeroPresenter(
     view: View,
-    private val getSuperHeroById: GetSuperHeroById
+    private val getSuperHeroById: GetSuperHeroById,
+    private val saveSuperHero: SaveSuperHero
 ) : LifecycleObserver, CoroutineScope by MainScope() {
 
     private val view: View? by weak(view)
     private lateinit var id: String
+    private var superHero: SuperHero? = null
 
     fun preparePresenter(id: String?) {
         if (id != null) {
@@ -33,10 +36,30 @@ class EditSuperHeroPresenter(
         refreshSuperHero()
     }
 
+    fun onSaveSuperHeroSelected(
+        name: String,
+        description: String,
+        isAvenger: Boolean
+    ) = launch {
+        view?.showLoading()
+        val superHero = this@EditSuperHeroPresenter.superHero ?: return@launch
+        async {
+            saveSuperHero(
+                superHero.copy(
+                    name = name,
+                    description = description,
+                    isAvenger = isAvenger
+                )
+            )
+        }
+        view?.close()
+    }
+
     private fun refreshSuperHero() = launch {
         val superHero = async { getSuperHeroById(id) } ?: return@launch
         view?.hideLoading()
         view?.showSuperHero(superHero)
+        this@EditSuperHeroPresenter.superHero = superHero
     }
 
     interface View {
