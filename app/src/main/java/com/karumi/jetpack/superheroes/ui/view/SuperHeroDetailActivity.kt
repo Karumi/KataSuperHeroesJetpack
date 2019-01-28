@@ -61,6 +61,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     }
 
     override fun showSuperHero(superHero: SuperHero) {
+        title = superHero.name
         tv_super_hero_name.text = superHero.name
         tv_super_hero_description.text = superHero.description
         iv_avengers_badge.visibility =
