@@ -1,4 +1,4 @@
-package com.karumi.jetpack.ui.view
+package com.karumi.jetpack.superheroes.ui.view
 
 import android.app.Activity
 import android.content.Context

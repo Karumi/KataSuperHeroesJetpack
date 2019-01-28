@@ -1,4 +1,4 @@
-package com.karumi.jetpack.ui.view
+package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
 import com.github.salomonbrys.kodein.Kodein.Module
@@ -6,16 +6,18 @@ import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.ui.view.SuperHeroDetailActivity
-import com.karumi.mockito.MockitoExtensions.on
-import org.funktionale.either.Either
+import com.karumi.ui.view.AcceptanceTest
+import com.nhaarman.mockitokotlin2.whenever
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.mockito.Mock
 
 class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
-    SuperHeroDetailActivity::class.java) {
+    SuperHeroDetailActivity::class.java
+) {
 
-    @Mock private lateinit var repository: SuperHeroRepository
+    @Mock
+    private lateinit var repository: SuperHeroRepository
 
     @Test
     fun showsAvengersBadgeIfSuperHeroIsPartOfTheAvengersTeam() {
@@ -36,20 +38,17 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
     }
 
     private fun givenThereIsASuperHero(isAvenger: Boolean): SuperHero {
-        val superHero = SuperHero(
-            id = "id",
-            name = "SuperHero",
-            photo = null,
-            isAvenger = isAvenger,
-            description = "Super Hero Description"
-        )
-        on(repository.getByName("id")).thenReturn(Either.right(superHero))
+        val superHeroId = "#1"
+        val superHeroName = "SuperHero"
+        val superHeroDescription = "Super Hero Description"
+        val superHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
+        whenever(runBlocking { repository.get(superHeroId) }).thenReturn(superHero)
         return superHero
     }
 
     private fun startActivity(superHero: SuperHero): SuperHeroDetailActivity {
         val args = Bundle()
-        args.putString("super_hero_name_key", superHero.id)
+        args.putString("super_hero_id_key", superHero.id)
         return startActivity(args)
     }
 

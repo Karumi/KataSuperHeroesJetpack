@@ -1,8 +1,8 @@
-package com.karumi.jetpack.ui.view
+package com.karumi.jetpack.superheroes.ui.view
 
 import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.view.LayoutInflater
-import com.karumi.R
+import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroViewHolder
@@ -14,6 +14,36 @@ class SuperHeroViewHolderTest : ScreenshotTest {
     @Test
     fun showsAnySuperHero() {
         val superHero = givenASuperHero()
+        val holder = givenASuperHeroViewHolder()
+
+        holder.render(superHero)
+
+        compareScreenshot(holder, R.dimen.super_hero_row_height)
+    }
+
+    @Test
+    fun showsSuperHeroesWithLongNames() {
+        val superHero = givenASuperHeroWithALongName()
+        val holder = givenASuperHeroViewHolder()
+
+        holder.render(superHero)
+
+        compareScreenshot(holder, R.dimen.super_hero_row_height)
+    }
+
+    @Test
+    fun showsSuperHeroesWithLongDescriptions() {
+        val superHero = givenASuperHeroWithALongDescription()
+        val holder = givenASuperHeroViewHolder()
+
+        holder.render(superHero)
+
+        compareScreenshot(holder, R.dimen.super_hero_row_height)
+    }
+
+    @Test
+    fun showsAvengersBadge() {
+        val superHero = givenASuperHero(isAvenger = true)
         val holder = givenASuperHeroViewHolder()
 
         holder.render(superHero)
@@ -41,10 +71,11 @@ class SuperHeroViewHolderTest : ScreenshotTest {
             |proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             |""".trimMargin()
         val isAvenger = false
-        return givenASuperHero(superHeroName, superHeroDescription, isAvenger)
+        return givenASuperHero("#1", superHeroName, superHeroDescription, isAvenger)
     }
 
     private fun givenASuperHeroWithALongName(): SuperHero {
+        val superHeroId = "Super Hero Id"
         val superHeroName = """
             |Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             |incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -54,18 +85,13 @@ class SuperHeroViewHolderTest : ScreenshotTest {
             |""".trimMargin()
         val superHeroDescription = "Description Super Hero"
         val isAvenger = false
-        return givenASuperHero(superHeroName, superHeroDescription, isAvenger)
+        return givenASuperHero(superHeroId, superHeroName, superHeroDescription, isAvenger)
     }
 
     private fun givenASuperHero(
+        superHeroId: String = "Super Hero Id",
         superHeroName: String = "Super Hero Name",
         superHeroDescription: String = "Super Hero Description",
         isAvenger: Boolean = false
-    ): SuperHero =
-        SuperHero(
-            superHeroName,
-            null,
-            isAvenger,
-            superHeroDescription
-        )
+    ): SuperHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
 }
