@@ -5,6 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import com.facebook.testing.screenshot.ScreenshotRunner
 import com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner
+import com.karumi.jetpack.superheroes.asApp
 
 class InjectedTestRunner : DexOpenerAndroidJUnitRunner() {
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.test.runner.AndroidJUnitRunner
 import com.facebook.testing.screenshot.ScreenshotRunner
 import com.github.tmurakami.dexopener.DexOpener
+import com.karumi.jetpack.superheroes.asApp
 
 class TestRunner : AndroidJUnitRunner() {
     override fun newApplication(
