@@ -5,28 +5,29 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    app:layout_constraintTop_toTopOf="parent"
+    app:popupTheme="@style/AppTheme.PopupOverlay" />
+
   <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@id/toolbar">
 
     <android.support.constraint.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
-      <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
-
       <ImageView
         android:id="@+id/iv_super_hero_photo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/super_hero_detail_header_height"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/color_primary_dark"
         tools:ignore="ContentDescription" />
 
@@ -74,18 +75,34 @@
       <View
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_super_hero_description" />
 
     </android.support.constraint.ConstraintLayout>
+
   </ScrollView>
 
+  <android.support.v4.widget.ContentLoadingProgressBar
+    android:id="@+id/progress_bar"
+    style="?android:attr/progressBarStyleLarge"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
   <android.support.v7.widget.AppCompatButton
+    android:id="@+id/bt_save_edition"
     android:layout_width="0dp"
     android:layout_height="56dp"
     android:background="@color/royal_blue"
+    android:enabled="false"
     android:text="@string/save_edited_super_hero_button"
     android:textColor="@color/white"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

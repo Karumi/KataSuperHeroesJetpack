@@ -16,9 +16,7 @@ class SuperHeroDetailPresenter(
     private val getSuperHeroByName: GetSuperHeroByName
 ) : LifecycleObserver, CoroutineScope by MainScope() {
 
-    private val view: View? by weak(
-        view
-    )
+    private val view: View? by weak(view)
 
     private lateinit var name: String
 
@@ -33,13 +31,13 @@ class SuperHeroDetailPresenter(
     @OnLifecycleEvent(ON_RESUME)
     fun update() {
         view?.showLoading()
-        refreshSuperHeroes()
+        refreshSuperHero()
     }
 
-    private fun refreshSuperHeroes() = launch {
-        val result = async { getSuperHeroByName(name) }
+    private fun refreshSuperHero() = launch {
+        val superHero = async { getSuperHeroByName(name) }
         view?.hideLoading()
-        view?.showSuperHero(result)
+        view?.showSuperHero(superHero)
     }
 
     interface View {
