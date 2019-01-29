@@ -36,7 +36,7 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onResume()
+        presenter.onDestroy()
     }
 
     private fun initializeAdapter() {

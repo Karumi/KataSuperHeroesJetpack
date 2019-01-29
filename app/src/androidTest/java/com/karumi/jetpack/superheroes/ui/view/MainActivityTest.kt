@@ -30,7 +30,7 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
     }
 
     @Test
-    fun showsJustOneSuperHero() = runBlocking {
+    fun showsJustOneSuperHero() {
         givenThereAreSomeSuperHeroes(1)
 
         val activity = startActivity()

@@ -11,7 +11,7 @@ import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.provider
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
+import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter
 import com.karumi.jetpack.superheroes.ui.utils.setImageBackground
@@ -49,6 +49,11 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
     override fun onResume() {
         super.onResume()
         presenter.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun preparePresenter(intent: Intent?) {
@@ -89,7 +94,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
                 instance()
             )
         }
-        bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
+        bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
         bind<SaveSuperHero>() with provider { SaveSuperHero(instance()) }
     }
 }
