@@ -37,6 +37,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycle.addObserver(presenter)
         bt_save_edition.setOnClickListener {
             presenter.onSaveSuperHeroSelected(
                 name = et_super_hero_name.text?.toString() ?: "",
@@ -44,16 +45,6 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
                 isAvenger = cb_is_avenger.isChecked
             )
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun preparePresenter(intent: Intent?) {

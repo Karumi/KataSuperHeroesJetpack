@@ -37,22 +37,13 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycle.addObserver(presenter)
         edit_super_hero.setOnClickListener {
             EditSuperHeroActivity.open(
                 this@SuperHeroDetailActivity,
                 superHeroId
             )
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun preparePresenter(intent: Intent?) {

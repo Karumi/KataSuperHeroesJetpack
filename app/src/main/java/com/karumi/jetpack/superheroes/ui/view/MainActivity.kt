@@ -25,18 +25,9 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycle.addObserver(presenter)
         initializeAdapter()
         initializeRecyclerView()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     private fun initializeAdapter() {
