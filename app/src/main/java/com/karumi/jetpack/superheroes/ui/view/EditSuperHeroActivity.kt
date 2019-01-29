@@ -28,7 +28,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         }
     }
 
-    private val presenter: EditSuperHeroPresenter by instance()
+    override val presenter: EditSuperHeroPresenter by instance()
     override val layoutId = R.layout.edit_super_hero_activity
     override val toolbarView: Toolbar
         get() = toolbar
@@ -43,16 +43,6 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
                 isAvenger = cb_is_avenger.isChecked
             )
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun prepare(intent: Intent?) {

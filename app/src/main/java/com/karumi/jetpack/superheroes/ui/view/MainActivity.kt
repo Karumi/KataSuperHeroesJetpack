@@ -17,7 +17,7 @@ import org.kodein.di.erased.provider
 
 class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
-    private val presenter: SuperHeroesPresenter by instance()
+    override val presenter: SuperHeroesPresenter by instance()
     private lateinit var adapter: SuperHeroesAdapter
     override val layoutId: Int = R.layout.main_activity
     override val toolbarView: Toolbar
@@ -27,16 +27,6 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         super.onCreate(savedInstanceState)
         initializeAdapter()
         initializeRecyclerView()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     private fun initializeAdapter() {
