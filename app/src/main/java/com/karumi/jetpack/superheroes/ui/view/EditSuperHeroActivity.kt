@@ -28,7 +28,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         }
     }
 
-    private val presenter: EditSuperHeroPresenter by instance()
+    override val presenter: EditSuperHeroPresenter by instance()
     override val layoutId = R.layout.edit_super_hero_activity
     override val toolbarView: Toolbar
         get() = toolbar
@@ -37,7 +37,6 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycle.addObserver(presenter)
         bt_save_edition.setOnClickListener {
             presenter.onSaveSuperHeroSelected(
                 name = et_super_hero_name.text?.toString() ?: "",
