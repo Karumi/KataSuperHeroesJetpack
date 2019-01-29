@@ -9,15 +9,15 @@ class SuperHeroRepository(
     private val local: LocalSuperHeroDataSource,
     private val remote: RemoteSuperHeroDataSource
 ) {
-    suspend fun getAllSuperHeroes(): List<SuperHero> {
-        return remote.getAllSuperHeroes()
-            .also { local.saveAll(it) }
-    }
+    suspend fun getAllSuperHeroes(): List<SuperHero> =
+        local.getAllSuperHeroes().ifEmpty {
+            remote.getAllSuperHeroes()
+                .also { local.saveAll(it) }
+        }
 
-    suspend fun get(id: String): SuperHero? {
-        return local.get(id)
+    suspend fun get(id: String): SuperHero? =
+        local.get(id)
             ?: remote.get(id)?.also { local.save(it) }
-    }
 
     suspend fun save(superHero: SuperHero): SuperHero = coroutineScope {
         listOf(
