@@ -3,18 +3,18 @@ package com.karumi.jetpack.superheroes.ui.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.View
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.provider
+import androidx.appcompat.widget.Toolbar
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroDetailPresenter
 import com.karumi.jetpack.superheroes.ui.utils.setImageBackground
 import kotlinx.android.synthetic.main.super_hero_detail_activity.*
+import org.kodein.di.Kodein
+import org.kodein.di.erased.bind
+import org.kodein.di.erased.instance
+import org.kodein.di.erased.provider
 
 class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
 
@@ -28,7 +28,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         }
     }
 
-    private val presenter: SuperHeroDetailPresenter by injector.instance()
+    private val presenter: SuperHeroDetailPresenter by instance()
     override val layoutId: Int = R.layout.super_hero_detail_activity
     override val toolbarView: Toolbar
         get() = toolbar
@@ -81,17 +81,11 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         super_hero_background.visibility = View.VISIBLE
     }
 
-    override val activityModules = Module(allowSilentOverride = true) {
-        bind<SuperHeroDetailPresenter>() with provider {
-            SuperHeroDetailPresenter(
-                this@SuperHeroDetailActivity,
-                instance()
-            )
+    override val activityModules =
+        Kodein.Module("SuperHeroDetailActivity dependencies", allowSilentOverride = true) {
+            bind<SuperHeroDetailPresenter>() with provider {
+                SuperHeroDetailPresenter(this@SuperHeroDetailActivity, instance())
+            }
+            bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
         }
-        bind<GetSuperHeroById>() with provider {
-            GetSuperHeroById(
-                instance()
-            )
-        }
-    }
 }

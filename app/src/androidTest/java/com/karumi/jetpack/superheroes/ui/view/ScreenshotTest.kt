@@ -3,10 +3,10 @@ package com.karumi.jetpack.superheroes.ui.view
 import android.app.Activity
 import android.content.Context
 import android.support.test.InstrumentationRegistry.getInstrumentation
-import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.testing.screenshot.Screenshot
 import com.facebook.testing.screenshot.ViewHelpers
 
@@ -25,9 +25,9 @@ interface ScreenshotTest {
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)
         ViewHelpers.setupView(view)
-                .setExactHeightPx(context.resources.getDimensionPixelSize(height))
-                .setExactWidthPx(metrics.widthPixels)
-                .layout()
+            .setExactHeightPx(context.resources.getDimensionPixelSize(height))
+            .setExactWidthPx(metrics.widthPixels)
+            .layout()
         Screenshot.snap(view).record()
     }
 }

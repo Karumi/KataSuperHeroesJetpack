@@ -1,23 +1,23 @@
 package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.View
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.provider
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroesAdapter
 import kotlinx.android.synthetic.main.main_activity.*
+import org.kodein.di.Kodein
+import org.kodein.di.erased.bind
+import org.kodein.di.erased.instance
+import org.kodein.di.erased.provider
 
 class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
-    private val presenter: SuperHeroesPresenter by injector.instance()
+    private val presenter: SuperHeroesPresenter by instance()
     private lateinit var adapter: SuperHeroesAdapter
     override val layoutId: Int = R.layout.main_activity
     override val toolbarView: Toolbar
@@ -74,17 +74,11 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         )
     }
 
-    override val activityModules = Module(allowSilentOverride = true) {
-        bind<SuperHeroesPresenter>() with provider {
-            SuperHeroesPresenter(
-                this@MainActivity,
-                instance()
-            )
+    override val activityModules =
+        Kodein.Module("MainActivity dependencies", allowSilentOverride = true) {
+            bind<SuperHeroesPresenter>() with provider {
+                SuperHeroesPresenter(this@MainActivity, instance())
+            }
+            bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
         }
-        bind<GetSuperHeroes>() with provider {
-            GetSuperHeroes(
-                instance()
-            )
-        }
-    }
 }

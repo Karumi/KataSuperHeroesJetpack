@@ -1,9 +1,9 @@
 package com.karumi.jetpack.superheroes.ui.view.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter

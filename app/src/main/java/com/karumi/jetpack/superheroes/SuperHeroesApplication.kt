@@ -2,40 +2,33 @@ package com.karumi.jetpack.superheroes
 
 import android.app.Application
 import android.content.Context
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.KodeinAware
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.conf.ConfigurableKodein
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.provider
-import com.github.salomonbrys.kodein.singleton
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.RemoteSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.androidModule
+import org.kodein.di.erased.bind
+import org.kodein.di.erased.instance
+import org.kodein.di.erased.provider
+import org.kodein.di.erased.singleton
 
 class SuperHeroesApplication : Application(), KodeinAware {
-    override val kodein = ConfigurableKodein(mutable = true)
-    var overrideModule: Module? = null
-
-    override fun onCreate() {
-        super.onCreate()
-        resetInjection()
+    override var kodein = Kodein.lazy {
+        import(appDependencies())
+        import(androidModule(this@SuperHeroesApplication))
     }
 
-    fun addModule(activityModules: Module) {
-        kodein.addImport(activityModules, true)
-        if (overrideModule != null) {
-            kodein.addImport(overrideModule!!, true)
+    fun override(overrideModule: Kodein.Module) {
+        kodein = Kodein.lazy {
+            import(appDependencies())
+            import(androidModule(this@SuperHeroesApplication))
+            import(overrideModule, allowOverride = true)
         }
     }
 
-    fun resetInjection() {
-        kodein.clear()
-        kodein.addImport(appDependencies(), true)
-    }
-
-    private fun appDependencies(): Module {
-        return Module(allowSilentOverride = true) {
+    private fun appDependencies(): Kodein.Module {
+        return Kodein.Module("Application dependencies", allowSilentOverride = true) {
             bind<SuperHeroRepository>() with provider {
                 SuperHeroRepository(instance(), instance())
             }

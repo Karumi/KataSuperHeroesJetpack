@@ -1,6 +1,6 @@
 package com.karumi.jetpack.superheroes.domain.usecase
 
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.test.runner.AndroidJUnitRunner
 import com.facebook.testing.screenshot.ScreenshotRunner
 import com.github.tmurakami.dexopener.DexOpener
-import com.karumi.jetpack.superheroes.asApp
 
 class TestRunner : AndroidJUnitRunner() {
     override fun newApplication(
@@ -16,11 +15,6 @@ class TestRunner : AndroidJUnitRunner() {
     ): Application {
         DexOpener.install(this)
         return super.newApplication(cl, className, context)
-    }
-
-    override fun callApplicationOnCreate(app: Application) {
-        app.asApp().kodein.mutable = true
-        super.callApplicationOnCreate(app)
     }
 
     override fun onCreate(arguments: Bundle?) {

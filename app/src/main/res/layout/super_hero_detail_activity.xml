@@ -6,11 +6,11 @@
   android:layout_height="match_parent"
   tools:context="com.karumi.jetpack.superheroes.ui.view.SuperHeroDetailActivity">
 
-  <android.support.constraint.ConstraintLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
@@ -96,7 +96,7 @@
       app:layout_constraintTop_toBottomOf="@id/tv_super_hero_name"
       tools:text="Scarlet Witch was born at the Wundagore base of the High Evolutionary, she and her twin brother Pietro were the children of Romani couple Django and Marya Maximoff. The High Evolutionary supposedly abducted the twins when they were babies and experimented on them, once he was disgusted with the results, he returned them to Wundagore, disguised as regular mutants." />
 
-    <android.support.v4.widget.ContentLoadingProgressBar
+    <androidx.core.widget.ContentLoadingProgressBar
       android:id="@+id/progress_bar"
       style="?android:attr/progressBarStyleLarge"
       android:layout_width="wrap_content"
@@ -120,6 +120,6 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
-  </android.support.constraint.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

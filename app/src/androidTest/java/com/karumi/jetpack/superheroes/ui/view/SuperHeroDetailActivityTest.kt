@@ -1,15 +1,14 @@
 package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
-import com.github.salomonbrys.kodein.Kodein.Module
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.ui.view.AcceptanceTest
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+import org.kodein.di.Kodein
+import org.kodein.di.erased.bind
+import org.kodein.di.erased.instance
 import org.mockito.Mock
 
 class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
@@ -52,7 +51,7 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
         return startActivity(args)
     }
 
-    override val testDependencies = Module(allowSilentOverride = true) {
+    override val testDependencies = Kodein.Module("Test dependencies", allowSilentOverride = true) {
         bind<SuperHeroRepository>() with instance(repository)
     }
 }
