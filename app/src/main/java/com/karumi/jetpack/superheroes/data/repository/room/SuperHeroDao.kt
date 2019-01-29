@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface SuperHeroDao {
@@ -15,6 +16,9 @@ interface SuperHeroDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(superHeroes: List<SuperHeroEntity>)
+
+    @Update
+    suspend fun update(superHero: SuperHeroEntity)
 
     @Query("DELETE FROM superheroes")
     suspend fun deleteAll()

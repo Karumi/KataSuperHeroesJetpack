@@ -20,13 +20,11 @@ class LocalSuperHeroDataSource(
     }
 
     suspend fun save(superHero: SuperHero): SuperHero {
-        dao.insertAll(listOf(superHero.toEntity()))
+        dao.update(superHero.toEntity())
         return superHero
     }
 
-    private fun SuperHeroEntity.toSuperHero(): SuperHero =
-        SuperHero(id, name, photo, isAvenger, description)
+    private fun SuperHeroEntity.toSuperHero(): SuperHero = superHero
 
-    private fun SuperHero.toEntity(): SuperHeroEntity =
-        SuperHeroEntity(id, name, photo, isAvenger, description)
+    private fun SuperHero.toEntity(): SuperHeroEntity = SuperHeroEntity(id, this)
 }
