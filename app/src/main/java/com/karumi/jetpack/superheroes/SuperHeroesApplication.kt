@@ -1,10 +1,13 @@
 package com.karumi.jetpack.superheroes
 
 import android.app.Application
+import androidx.room.Room
+import com.karumi.jetpack.superheroes.common.SuperHeroesDatabase
 import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.RemoteSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import com.karumi.jetpack.superheroes.data.repository.room.SuperHeroDao
 import org.kodein.di.DKodein
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -31,11 +34,23 @@ class SuperHeroesApplication : Application(), KodeinAware {
     }
 
     private fun appDependencies(): Kodein.Module = module {
+        bind<SuperHeroesDatabase>() with singleton {
+            Room.databaseBuilder(
+                this@SuperHeroesApplication,
+                SuperHeroesDatabase::class.java,
+                "superheroes-db"
+            ).fallbackToDestructiveMigration()
+                .build()
+        }
+        bind<SuperHeroDao>() with provider {
+            val database: SuperHeroesDatabase = instance()
+            database.superHeroesDao()
+        }
         bind<SuperHeroRepository>() with provider {
             SuperHeroRepository(instance(), instance())
         }
         bind<LocalSuperHeroDataSource>() with singleton {
-            LocalSuperHeroDataSource(instance())
+            LocalSuperHeroDataSource(instance(), instance())
         }
         bind<RemoteSuperHeroDataSource>() with provider {
             RemoteSuperHeroDataSource(instance())
