@@ -1,38 +1,32 @@
 package com.karumi.jetpack.superheroes.data.repository
 
+import com.karumi.jetpack.superheroes.data.repository.room.SuperHeroDao
+import com.karumi.jetpack.superheroes.data.repository.room.SuperHeroEntity
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import kotlinx.coroutines.delay
 
-class LocalSuperHeroDataSource {
-    companion object {
-        private const val BIT_TIME = 250L
-    }
+class LocalSuperHeroDataSource(
+    private val dao: SuperHeroDao
+) {
+    suspend fun getAllSuperHeroes(): List<SuperHero> =
+        dao.getAll()
+            .map { it.toSuperHero() }
 
-    private val superHeroes: MutableMap<String, SuperHero> = mutableMapOf()
-
-    suspend fun getAllSuperHeroes(): List<SuperHero> {
-        waitABit()
-        return superHeroes.values.toList()
-    }
-
-    suspend fun get(id: String): SuperHero? {
-        waitABit()
-        return superHeroes[id]
-    }
+    suspend fun get(id: String): SuperHero? =
+        dao.getById(id)?.toSuperHero()
 
     suspend fun saveAll(all: List<SuperHero>) {
-        waitABit()
-        superHeroes.clear()
-        superHeroes.putAll(all.associateBy { it.id })
+        dao.deleteAll()
+        dao.insertAll(all.map { it.toEntity() })
     }
 
     suspend fun save(superHero: SuperHero): SuperHero {
-        waitABit()
-        superHeroes[superHero.id] = superHero
+        dao.insertAll(listOf(superHero.toEntity()))
         return superHero
     }
 
-    private suspend fun waitABit() {
-        delay(BIT_TIME)
-    }
+    private fun SuperHeroEntity.toSuperHero(): SuperHero =
+        SuperHero(id, name, photo, isAvenger, description)
+
+    private fun SuperHero.toEntity(): SuperHeroEntity =
+        SuperHeroEntity(id, name, photo, isAvenger, description)
 }

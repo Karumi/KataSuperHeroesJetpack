@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'shot'
 
 android {
@@ -40,6 +41,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
+    implementation "androidx.room:room-runtime:2.1.0-alpha04"
+    kapt "androidx.room:room-compiler:2.1.0-alpha04"
+    implementation "androidx.room:room-coroutines:2.1.0-alpha04"
 
     /* Coroutines */
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0"
@@ -71,6 +75,7 @@ dependencies {
     }
 
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.0"
+    testImplementation "androidx.room:room-testing:2.1.0-alpha04"
 }
 
 shot {
