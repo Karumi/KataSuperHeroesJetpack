@@ -37,12 +37,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        edit_super_hero.setOnClickListener {
-            EditSuperHeroActivity.open(
-                this@SuperHeroDetailActivity,
-                superHeroId
-            )
-        }
+        edit_super_hero.setOnClickListener { presenter.onEditSelected() }
     }
 
     override fun onResume() {
@@ -79,6 +74,10 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         iv_super_hero_photo.setImageBackground(superHero.photo)
         edit_super_hero.visibility = View.VISIBLE
         super_hero_background.visibility = View.VISIBLE
+    }
+
+    override fun openEditSuperHero(superHeroId: String) {
+        EditSuperHeroActivity.open(this, superHeroId)
     }
 
     override val activityModules =

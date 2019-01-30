@@ -7,4 +7,3 @@ interface TimeProvider {
 class RealTimeProvider : TimeProvider {
     override val time = System.currentTimeMillis()
 }
-

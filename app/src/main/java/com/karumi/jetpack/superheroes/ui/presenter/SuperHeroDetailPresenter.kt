@@ -35,6 +35,10 @@ class SuperHeroDetailPresenter(
         cancel()
     }
 
+    fun onEditSelected() {
+        view?.openEditSuperHero(id)
+    }
+
     private fun refreshSuperHero() = launch {
         val superHero = async { getSuperHeroById(id) } ?: return@launch
         view?.hideLoading()
@@ -46,5 +50,6 @@ class SuperHeroDetailPresenter(
         fun showLoading()
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)
+        fun openEditSuperHero(superHeroId: String)
     }
 }
