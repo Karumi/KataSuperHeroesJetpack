@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Kata Jetpack</string>
+  <string name="is_avenger_badge_content_description">Is an Avenger</string>
   <string name="edit_super_hero_button">Edit Super Hero</string>
   <string name="edit_super_hero_name_hint">Super Hero Name</string>
   <string name="edit_super_hero_description_hint">Super Hero Description</string>
