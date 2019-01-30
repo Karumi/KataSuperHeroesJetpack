@@ -13,7 +13,7 @@ class SuperHeroesPresenter(
     view: View,
     private val getSuperHeroes: GetSuperHeroes,
     private val executor: ExecutorService
-) : LifecycleObserver {
+) : SuperHeroesListener, LifecycleObserver {
 
     private val view: View? by weak(view)
 
@@ -37,7 +37,7 @@ class SuperHeroesPresenter(
         }
     }
 
-    fun onSuperHeroClicked(superHero: SuperHero) {
+    override fun onSuperHeroClicked(superHero: SuperHero) {
         view?.openDetail(superHero.id)
     }
 
@@ -48,4 +48,8 @@ class SuperHeroesPresenter(
         fun showSuperHeroes(superHeroes: List<SuperHero>)
         fun openDetail(id: String)
     }
+}
+
+interface SuperHeroesListener {
+    fun onSuperHeroClicked(superHero: SuperHero)
 }

@@ -37,25 +37,21 @@ class EditSuperHeroPresenter(
     }
 
     override fun onSaveSuperHeroSelected(
-        name: String,
-        description: String,
-        isAvenger: Boolean
+        editableSuperHero: EditSuperHeroPresenter.EditableSuperHero
     ) {
-        saveSuperHero(name, description, isAvenger)
+        saveSuperHero(editableSuperHero)
     }
 
     private fun saveSuperHero(
-        name: String,
-        description: String,
-        isAvenger: Boolean
+        editableSuperHero: EditSuperHeroPresenter.EditableSuperHero
     ) = executor.submit {
         view?.showLoading()
         val superHero = superHero ?: return@submit
         saveSuperHero(
             superHero.copy(
-                name = name,
-                description = description,
-                isAvenger = isAvenger
+                name = editableSuperHero.name,
+                description = editableSuperHero.description,
+                isAvenger = editableSuperHero.isAvenger
             )
         )
         view?.close()
@@ -68,6 +64,12 @@ class EditSuperHeroPresenter(
         this@EditSuperHeroPresenter.superHero = superHero
     }
 
+    data class EditableSuperHero(
+        var isAvenger: Boolean,
+        var name: String,
+        var description: String
+    )
+
     interface View {
         fun close()
         fun hideLoading()
@@ -77,9 +79,5 @@ class EditSuperHeroPresenter(
 }
 
 interface EditSuperHeroListener {
-    fun onSaveSuperHeroSelected(
-        name: String,
-        description: String,
-        isAvenger: Boolean
-    )
+    fun onSaveSuperHeroSelected(editableSuperHero: EditSuperHeroPresenter.EditableSuperHero)
 }

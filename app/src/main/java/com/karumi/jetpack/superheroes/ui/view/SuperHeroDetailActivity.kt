@@ -9,7 +9,6 @@ import com.karumi.jetpack.superheroes.databinding.SuperHeroDetailActivityBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroDetailPresenter
-import com.karumi.jetpack.superheroes.ui.utils.setImageBackground
 import kotlinx.android.synthetic.main.super_hero_detail_activity.*
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -55,7 +54,6 @@ class SuperHeroDetailActivity :
     override fun showSuperHero(superHero: SuperHero) = runOnUiThread {
         title = superHero.name
         binding.superHero = superHero
-        iv_super_hero_photo.setImageBackground(superHero.photo)
     }
 
     override fun openEditSuperHero(superHeroId: String) = runOnUiThread {

@@ -16,6 +16,10 @@
       type="com.karumi.jetpack.superheroes.domain.model.SuperHero" />
 
     <variable
+      name="editableSuperHero"
+      type="com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter.EditableSuperHero" />
+
+    <variable
       name="isLoading"
       type="boolean" />
   </data>
@@ -46,6 +50,7 @@
           android:id="@+id/iv_super_hero_photo"
           android:layout_width="match_parent"
           android:layout_height="@dimen/super_hero_detail_header_height"
+          app:imageUrl="@{ superHero.photo }"
           app:layout_constraintTop_toTopOf="parent"
           tools:background="@color/color_primary_dark"
           tools:ignore="ContentDescription" />
@@ -68,7 +73,7 @@
           android:layout_height="wrap_content"
           android:layout_margin="8dp"
           android:buttonTint="@color/white"
-          android:checked="@{ superHero.avenger }"
+          android:checked="@={ editableSuperHero.avenger, default = false }"
           android:enabled="@{ superHero != null }"
           android:text="@string/is_super_hero_an_avenger_checkbox"
           android:textColor="@color/white"
@@ -92,7 +97,7 @@
             android:hint="@string/edit_super_hero_name_hint"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:text="@{ superHero.name }"
+            android:text="@={ editableSuperHero.name }"
             android:textColor="@color/white"
             tools:ignore="UnusedAttribute" />
 
@@ -116,7 +121,7 @@
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
-            android:text="@{ superHero.description }"
+            android:text="@={ editableSuperHero.description }"
             android:textColor="@color/white"
             tools:ignore="UnusedAttribute" />
 
@@ -150,6 +155,7 @@
       android:layout_height="56dp"
       android:background="@color/royal_blue"
       android:enabled="@{ superHero != null }"
+      android:onClick="@{ () -> listener.onSaveSuperHeroSelected(editableSuperHero) }"
       android:text="@string/save_edited_super_hero_button"
       android:textColor="@color/white"
       app:layout_constraintBottom_toBottomOf="parent"

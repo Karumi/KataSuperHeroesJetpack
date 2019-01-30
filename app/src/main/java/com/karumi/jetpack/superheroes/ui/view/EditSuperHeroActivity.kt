@@ -2,7 +2,6 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.common.module
@@ -11,7 +10,6 @@ import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter
-import com.karumi.jetpack.superheroes.ui.utils.setImageBackground
 import kotlinx.android.synthetic.main.edit_super_hero_activity.*
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -37,17 +35,6 @@ class EditSuperHeroActivity :
         get() = toolbar
     private val superHeroId: String by lazy { intent?.extras?.getString(SUPER_HERO_ID_KEY) ?: "" }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bt_save_edition.setOnClickListener {
-            presenter.onSaveSuperHeroSelected(
-                name = et_super_hero_name.text?.toString() ?: "",
-                description = et_super_hero_description.text?.toString() ?: "",
-                isAvenger = cb_is_avenger.isChecked
-            )
-        }
-    }
-
     override fun configureBinding(binding: EditSuperHeroActivityBinding) {
         binding.listener = presenter
         binding.isLoading = false
@@ -71,8 +58,9 @@ class EditSuperHeroActivity :
     }
 
     override fun showSuperHero(superHero: SuperHero) = runOnUiThread {
+        binding.listener = presenter
         binding.superHero = superHero
-        iv_super_hero_photo.setImageBackground(superHero.photo)
+        binding.editableSuperHero = superHero.toEditable()
     }
 
     override val activityModules = module {
@@ -82,4 +70,7 @@ class EditSuperHeroActivity :
         bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
         bind<SaveSuperHero>() with provider { SaveSuperHero(instance()) }
     }
+
+    private fun SuperHero.toEditable() =
+        EditSuperHeroPresenter.EditableSuperHero(isAvenger, name, description)
 }

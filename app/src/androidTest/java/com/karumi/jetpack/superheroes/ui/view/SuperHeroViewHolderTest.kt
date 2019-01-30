@@ -1,8 +1,10 @@
 package com.karumi.jetpack.superheroes.ui.view
 
 import android.view.LayoutInflater
+import androidx.databinding.DataBindingUtil
 import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.jetpack.superheroes.R
+import com.karumi.jetpack.superheroes.databinding.SuperHeroRowBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroViewHolder
@@ -51,15 +53,17 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         compareScreenshot(holder, R.dimen.super_hero_row_height)
     }
 
-    private fun givenASuperHeroViewHolder(): SuperHeroViewHolder {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.super_hero_row, null, false)
-        return SuperHeroViewHolder(
-            view,
-            mock<SuperHeroesPresenter>(SuperHeroesPresenter::class.java)
-        )
-    }
+    private fun givenASuperHeroViewHolder(): SuperHeroViewHolder =
+        runOnUi {
+            val context = InstrumentationRegistry.getInstrumentation().targetContext
+            val inflater = LayoutInflater.from(context)
+            val binding: SuperHeroRowBinding =
+                DataBindingUtil.inflate(inflater, R.layout.super_hero_row, null, false)
+            SuperHeroViewHolder(
+                binding,
+                mock<SuperHeroesPresenter>(SuperHeroesPresenter::class.java)
+            )
+        }
 
     private fun givenASuperHeroWithALongDescription(): SuperHero {
         val superHeroName = "Super Hero Name"
@@ -94,4 +98,10 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         superHeroDescription: String = "Super Hero Description",
         isAvenger: Boolean = false
     ): SuperHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
+}
+
+private fun <T> runOnUi(block: () -> T): T {
+    var response: T? = null
+    InstrumentationRegistry.getInstrumentation().runOnMainSync { response = block() }
+    return response!!
 }

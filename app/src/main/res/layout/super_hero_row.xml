@@ -1,41 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="@dimen/super_hero_row_height">
+  xmlns:tools="http://schemas.android.com/tools">
 
-  <ImageView
-    android:id="@+id/iv_super_hero_photo"
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+      name="superHero"
+      type="com.karumi.jetpack.superheroes.domain.model.SuperHero" />
+
+    <variable
+      name="listener"
+      type="com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesListener" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:ignore="ContentDescription" />
+    android:layout_height="@dimen/super_hero_row_height"
+    android:onClick="@{ () -> listener.onSuperHeroClicked(superHero) }">
 
-  <View
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/super_hero_row_gradient_height"
-    android:background="@drawable/super_hero_gradient"
-    app:layout_constraintBottom_toBottomOf="parent" />
+    <ImageView
+      android:id="@+id/iv_super_hero_photo"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:imageUrl="@{ superHero.photo }"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="ContentDescription" />
 
-  <TextView
-    android:id="@+id/tv_super_hero_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_margin"
-    android:textColor="@android:color/white"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:text="Iron Man" />
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/super_hero_row_gradient_height"
+      android:background="@drawable/super_hero_gradient"
+      app:layout_constraintBottom_toBottomOf="parent" />
 
-  <ImageView
-    android:id="@+id/iv_avengers_badge"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/default_margin"
-    android:src="@mipmap/ic_avengers"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:contentDescription="@string/is_avenger_badge_content_description" />
+    <TextView
+      android:id="@+id/tv_super_hero_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/default_margin"
+      android:text="@{ superHero.name }"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:text="Iron Man" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+      android:id="@+id/iv_avengers_badge"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/default_margin"
+      android:contentDescription="@string/is_avenger_badge_content_description"
+      android:src="@mipmap/ic_avengers"
+      android:visibility="@{ superHero.avenger ? View.VISIBLE : View.GONE, default=gone }"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
