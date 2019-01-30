@@ -36,7 +36,9 @@ class SuperHeroesPresenter(
         }
     }
 
-    fun onSuperHeroClicked(superHero: SuperHero) = view?.openDetail(superHero.id)
+    fun onSuperHeroClicked(superHero: SuperHero) {
+        view?.openDetail(superHero.id)
+    }
 
     interface View {
         fun hideLoading()
