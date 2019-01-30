@@ -41,19 +41,21 @@ class EditSuperHeroPresenter(
         name: String,
         description: String,
         isAvenger: Boolean
-    ) = launch {
-        view?.showLoading()
-        val superHero = this@EditSuperHeroPresenter.superHero ?: return@launch
-        async {
-            saveSuperHero(
-                superHero.copy(
-                    name = name,
-                    description = description,
-                    isAvenger = isAvenger
+    ) {
+        launch {
+            view?.showLoading()
+            val superHero = superHero ?: return@launch
+            async {
+                saveSuperHero(
+                    superHero.copy(
+                        name = name,
+                        description = description,
+                        isAvenger = isAvenger
+                    )
                 )
-            )
+            }
+            view?.close()
         }
-        view?.close()
     }
 
     private fun refreshSuperHero() = launch {
