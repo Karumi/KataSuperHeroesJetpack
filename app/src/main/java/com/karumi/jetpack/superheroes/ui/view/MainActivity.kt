@@ -1,11 +1,11 @@
 package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.common.module
+import com.karumi.jetpack.superheroes.databinding.MainActivityBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
@@ -15,7 +15,7 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
 
-class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
+class MainActivity : BaseActivity<MainActivityBinding>(), SuperHeroesPresenter.View {
 
     override val presenter: SuperHeroesPresenter by instance()
     private lateinit var adapter: SuperHeroesAdapter
@@ -29,6 +29,11 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         initializeRecyclerView()
     }
 
+    override fun configureBinding(binding: MainActivityBinding) {
+        binding.isLoading = false
+        binding.isShowingEmptyCase = false
+    }
+
     private fun initializeAdapter() {
         adapter = SuperHeroesAdapter(presenter)
     }
@@ -40,15 +45,15 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
     }
 
     override fun showLoading() = runOnUiThread {
-        progress_bar.visibility = View.VISIBLE
+        binding.isLoading = true
     }
 
     override fun hideLoading() = runOnUiThread {
-        progress_bar.visibility = View.GONE
+        binding.isLoading = false
     }
 
     override fun showEmptyCase() = runOnUiThread {
-        tv_empty_case.visibility = View.VISIBLE
+        binding.isShowingEmptyCase = true
     }
 
     override fun showSuperHeroes(superHeroes: List<SuperHero>) = runOnUiThread {

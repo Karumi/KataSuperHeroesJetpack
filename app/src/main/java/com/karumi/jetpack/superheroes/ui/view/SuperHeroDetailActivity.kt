@@ -2,11 +2,10 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.common.module
+import com.karumi.jetpack.superheroes.databinding.SuperHeroDetailActivityBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroDetailPresenter
@@ -16,8 +15,9 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
 
-class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
-
+class SuperHeroDetailActivity :
+    BaseActivity<SuperHeroDetailActivityBinding>(),
+    SuperHeroDetailPresenter.View {
     companion object {
         private const val SUPER_HERO_ID_KEY = "super_hero_id_key"
 
@@ -34,9 +34,9 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         get() = toolbar
     private val superHeroId: String by lazy { intent?.extras?.getString(SUPER_HERO_ID_KEY) ?: "" }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        edit_super_hero.setOnClickListener { presenter.onEditSelected() }
+    override fun configureBinding(binding: SuperHeroDetailActivityBinding) {
+        binding.listener = presenter
+        binding.isLoading = false
     }
 
     override fun prepare(intent: Intent?) {
@@ -45,22 +45,17 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     }
 
     override fun showLoading() = runOnUiThread {
-        progress_bar.visibility = View.VISIBLE
+        binding.isLoading = true
     }
 
     override fun hideLoading() = runOnUiThread {
-        progress_bar.visibility = View.GONE
+        binding.isLoading = false
     }
 
     override fun showSuperHero(superHero: SuperHero) = runOnUiThread {
         title = superHero.name
-        tv_super_hero_name.text = superHero.name
-        tv_super_hero_description.text = superHero.description
-        iv_avengers_badge.visibility =
-            if (superHero.isAvenger) View.VISIBLE else View.GONE
+        binding.superHero = superHero
         iv_super_hero_photo.setImageBackground(superHero.photo)
-        edit_super_hero.visibility = View.VISIBLE
-        super_hero_background.visibility = View.VISIBLE
     }
 
     override fun openEditSuperHero(superHeroId: String) = runOnUiThread {
