@@ -1,6 +1,7 @@
 package com.karumi.jetpack.superheroes.ui.view
 
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import com.karumi.jetpack.superheroes.data.singleValueLiveData
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
@@ -83,12 +84,12 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
             )
         }
 
-        whenever(repository.getAllSuperHeroes()).thenReturn(superHeroes)
+        whenever(repository.getAllSuperHeroes()).thenReturn(singleValueLiveData(superHeroes))
         return superHeroes
     }
 
     private fun givenThereAreNoSuperHeroes() {
-        whenever(repository.getAllSuperHeroes()).thenReturn(emptyList())
+        whenever(repository.getAllSuperHeroes()).thenReturn(singleValueLiveData(emptyList()))
     }
 
     override val testDependencies = Kodein.Module("Test dependencies", allowSilentOverride = true) {

@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.databinding.SuperHeroRowBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesListener
+import com.karumi.jetpack.superheroes.ui.viewmodel.SuperHeroesViewModel
 
 internal class SuperHeroesAdapter(
-    private val listener: SuperHeroesListener
+    private val viewModel: SuperHeroesViewModel
 ) : RecyclerView.Adapter<SuperHeroViewHolder>() {
     private val superHeroes: MutableList<SuperHero> = ArrayList()
 
@@ -26,12 +26,11 @@ internal class SuperHeroesAdapter(
             false
         )
 
-        return SuperHeroViewHolder(binding, listener)
+        return SuperHeroViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SuperHeroViewHolder, position: Int) {
-        val superHero = superHeroes[position]
-        holder.render(superHero)
+        holder.render(superHeroes[position], viewModel)
     }
 
     override fun getItemCount(): Int {

@@ -2,6 +2,7 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import com.karumi.jetpack.superheroes.data.singleValueLiveData
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
@@ -37,7 +38,7 @@ class EditSuperHeroActivityTest :
             true,
             ""
         )
-        whenever(repository.get(ANY_ID)).thenReturn(superHero)
+        whenever(repository.get(ANY_ID)).thenReturn(singleValueLiveData(superHero))
         return superHero
     }
 

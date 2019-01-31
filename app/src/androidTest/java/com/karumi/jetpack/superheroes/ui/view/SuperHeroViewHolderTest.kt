@@ -6,10 +6,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.databinding.SuperHeroRowBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroViewHolder
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.Test
-import org.mockito.Mockito.mock
 
 class SuperHeroViewHolderTest : ScreenshotTest {
 
@@ -18,7 +17,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         val superHero = givenASuperHero()
         val holder = givenASuperHeroViewHolder()
 
-        holder.render(superHero)
+        holder.render(superHero, mock())
 
         compareScreenshot(holder, R.dimen.super_hero_row_height)
     }
@@ -28,7 +27,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         val superHero = givenASuperHeroWithALongName()
         val holder = givenASuperHeroViewHolder()
 
-        holder.render(superHero)
+        holder.render(superHero, mock())
 
         compareScreenshot(holder, R.dimen.super_hero_row_height)
     }
@@ -38,7 +37,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         val superHero = givenASuperHeroWithALongDescription()
         val holder = givenASuperHeroViewHolder()
 
-        holder.render(superHero)
+        holder.render(superHero, mock())
 
         compareScreenshot(holder, R.dimen.super_hero_row_height)
     }
@@ -48,7 +47,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
         val superHero = givenASuperHero(isAvenger = true)
         val holder = givenASuperHeroViewHolder()
 
-        holder.render(superHero)
+        holder.render(superHero, mock())
 
         compareScreenshot(holder, R.dimen.super_hero_row_height)
     }
@@ -59,10 +58,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
             val inflater = LayoutInflater.from(context)
             val binding: SuperHeroRowBinding =
                 DataBindingUtil.inflate(inflater, R.layout.super_hero_row, null, false)
-            SuperHeroViewHolder(
-                binding,
-                mock<SuperHeroesPresenter>(SuperHeroesPresenter::class.java)
-            )
+            SuperHeroViewHolder(binding)
         }
 
     private fun givenASuperHeroWithALongDescription(): SuperHero {

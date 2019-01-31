@@ -8,12 +8,8 @@
     <import type="android.view.View" />
 
     <variable
-      name="isLoading"
-      type="boolean" />
-
-    <variable
-      name="isShowingEmptyCase"
-      type="boolean" />
+      name="viewModel"
+      type="com.karumi.jetpack.superheroes.ui.viewmodel.SuperHeroesViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +42,7 @@
       style="?android:attr/progressBarStyleLarge"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:visibility="@{ isLoading ? View.VISIBLE : View.GONE }"
+      android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE }"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +55,7 @@
       android:layout_centerInParent="true"
       android:text="¯\\_(ツ)_/¯"
       android:textColor="@android:color/white"
-      android:visibility="@{ isShowingEmptyCase ? View.VISIBLE : View.GONE }"
+      android:visibility="@{ viewModel.isShowingEmptyCase ? View.VISIBLE : View.GONE }"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"

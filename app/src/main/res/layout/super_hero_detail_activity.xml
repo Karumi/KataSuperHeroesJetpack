@@ -8,16 +8,8 @@
     <import type="android.view.View" />
 
     <variable
-      name="listener"
-      type="com.karumi.jetpack.superheroes.ui.presenter.SuperHeroDetailListener" />
-
-    <variable
-      name="superHero"
-      type="com.karumi.jetpack.superheroes.domain.model.SuperHero" />
-
-    <variable
-      name="isLoading"
-      type="boolean" />
+      name="viewModel"
+      type="com.karumi.jetpack.superheroes.ui.viewmodel.SuperHeroDetailViewModel" />
 
   </data>
 
@@ -43,7 +35,7 @@
         android:id="@+id/iv_super_hero_photo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/super_hero_detail_header_height"
-        app:imageUrl="@{ superHero.photo }"
+        app:imageUrl="@{ viewModel.superHero.photo }"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:background="@color/color_primary_dark"
         tools:ignore="ContentDescription" />
@@ -53,7 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/super_hero_gradient"
-        android:visibility="@{ superHero == null ? View.GONE : View.VISIBLE }"
+        android:visibility="@{ viewModel.superHero == null ? View.GONE : View.VISIBLE }"
         app:layout_constraintBottom_toBottomOf="@id/iv_super_hero_photo"
         app:layout_constraintEnd_toEndOf="@id/iv_super_hero_photo"
         app:layout_constraintStart_toStartOf="@id/iv_super_hero_photo"
@@ -66,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
         android:src="@mipmap/ic_avengers"
-        android:visibility="@{ superHero.avenger ? View.VISIBLE : View.GONE }"
+        android:visibility="@{ viewModel.superHero.avenger ? View.VISIBLE : View.GONE }"
         app:layout_constraintBottom_toBottomOf="@id/iv_super_hero_photo"
         app:layout_constraintStart_toStartOf="@id/iv_super_hero_photo"
         tools:ignore="ContentDescription"
@@ -84,9 +76,9 @@
         android:elevation="2dp"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:onClick="@{ () -> listener.onEditSelected() }"
+        android:onClick="@{ () -> viewModel.onEditSelected() }"
         android:src="@drawable/ic_edit"
-        android:visibility="@{ superHero == null ? View.GONE : View.VISIBLE }"
+        android:visibility="@{ viewModel.superHero == null ? View.GONE : View.VISIBLE }"
         app:layout_constraintEnd_toEndOf="@id/iv_super_hero_photo"
         app:layout_constraintTop_toTopOf="@id/iv_super_hero_photo"
         tools:ignore="UnusedAttribute"
@@ -99,7 +91,7 @@
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginLeft="@dimen/default_margin"
         android:layout_marginTop="@dimen/default_margin"
-        android:text="@{ superHero.name }"
+        android:text="@{ viewModel.superHero.name }"
         android:textColor="@android:color/white"
         android:textSize="@dimen/title_text_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
-        android:text="@{ superHero.description }"
+        android:text="@{ viewModel.superHero.description }"
         android:textColor="@android:color/white"
         android:textSize="@dimen/body_text_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="@{ isLoading ? View.VISIBLE : View.GONE }"
+        android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE }"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
