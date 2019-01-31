@@ -2,6 +2,7 @@ package com.karumi.jetpack.superheroes
 
 import android.app.Application
 import android.content.Context
+import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.RemoteSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
@@ -27,17 +28,15 @@ class SuperHeroesApplication : Application(), KodeinAware {
         }
     }
 
-    private fun appDependencies(): Kodein.Module {
-        return Kodein.Module("Application dependencies", allowSilentOverride = true) {
-            bind<SuperHeroRepository>() with provider {
-                SuperHeroRepository(instance(), instance())
-            }
-            bind<LocalSuperHeroDataSource>() with singleton {
-                LocalSuperHeroDataSource()
-            }
-            bind<RemoteSuperHeroDataSource>() with provider {
-                RemoteSuperHeroDataSource()
-            }
+    private fun appDependencies(): Kodein.Module = module {
+        bind<SuperHeroRepository>() with provider {
+            SuperHeroRepository(instance(), instance())
+        }
+        bind<LocalSuperHeroDataSource>() with singleton {
+            LocalSuperHeroDataSource()
+        }
+        bind<RemoteSuperHeroDataSource>() with provider {
+            RemoteSuperHeroDataSource()
         }
     }
 }

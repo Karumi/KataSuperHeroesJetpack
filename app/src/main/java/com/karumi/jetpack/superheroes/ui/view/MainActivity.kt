@@ -5,12 +5,12 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karumi.jetpack.superheroes.R
+import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroesAdapter
 import kotlinx.android.synthetic.main.main_activity.*
-import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
@@ -74,11 +74,10 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         )
     }
 
-    override val activityModules =
-        Kodein.Module("MainActivity dependencies", allowSilentOverride = true) {
-            bind<SuperHeroesPresenter>() with provider {
-                SuperHeroesPresenter(this@MainActivity, instance())
-            }
-            bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
+    override val activityModules = module {
+        bind<SuperHeroesPresenter>() with provider {
+            SuperHeroesPresenter(this@MainActivity, instance())
         }
+        bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
+    }
 }

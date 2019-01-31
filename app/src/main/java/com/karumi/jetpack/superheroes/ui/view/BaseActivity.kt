@@ -23,8 +23,8 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         setContentView(layoutId)
         setSupportActionBar(toolbarView)
-        preparePresenter(intent)
+        prepare(intent)
     }
 
-    open fun preparePresenter(intent: Intent?) {}
+    open fun prepare(intent: Intent?) {}
 }

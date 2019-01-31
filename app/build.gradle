@@ -63,12 +63,6 @@ dependencies {
         exclude group: "com.android.support"
     }
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
-
-    androidTestImplementation("com.facebook.testing.screenshot:core:0.8.0") {
-        exclude group: "com.crittercism.dexmaker", module: "dexmaker"
-        exclude group: "com.crittercism.dexmaker", module: "dexmaker-dx"
-    }
-
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.0"
 }
 

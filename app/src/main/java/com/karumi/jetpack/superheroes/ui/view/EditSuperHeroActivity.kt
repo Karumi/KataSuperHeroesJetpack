@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.karumi.jetpack.superheroes.R
+import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter
 import com.karumi.jetpack.superheroes.ui.utils.setImageBackground
 import kotlinx.android.synthetic.main.edit_super_hero_activity.*
-import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
@@ -32,8 +32,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
     override val layoutId = R.layout.edit_super_hero_activity
     override val toolbarView: Toolbar
         get() = toolbar
-    private val superHeroId: String
-        get() = intent?.extras?.getString(SUPER_HERO_ID_KEY) ?: ""
+    private val superHeroId: String by lazy { intent?.extras?.getString(SUPER_HERO_ID_KEY) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +55,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         presenter.onDestroy()
     }
 
-    override fun preparePresenter(intent: Intent?) {
+    override fun prepare(intent: Intent?) {
         title = superHeroId
         presenter.preparePresenter(superHeroId)
     }
@@ -86,12 +85,11 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         cb_is_avenger.isChecked = superHero.isAvenger
     }
 
-    override val activityModules =
-        Kodein.Module("EditSuperHeroActivity dependencies", allowSilentOverride = true) {
-            bind<EditSuperHeroPresenter>() with provider {
-                EditSuperHeroPresenter(this@EditSuperHeroActivity, instance(), instance())
-            }
-            bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
-            bind<SaveSuperHero>() with provider { SaveSuperHero(instance()) }
+    override val activityModules = module {
+        bind<EditSuperHeroPresenter>() with provider {
+            EditSuperHeroPresenter(this@EditSuperHeroActivity, instance(), instance())
         }
+        bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
+        bind<SaveSuperHero>() with provider { SaveSuperHero(instance()) }
+    }
 }
