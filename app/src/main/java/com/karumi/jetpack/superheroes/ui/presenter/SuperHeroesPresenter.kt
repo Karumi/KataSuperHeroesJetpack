@@ -1,22 +1,17 @@
 package com.karumi.jetpack.superheroes.ui.presenter
 
-import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import java.util.concurrent.ExecutorService
 
 class SuperHeroesPresenter(
     view: View,
-    private val getSuperHeroes: GetSuperHeroes
-) : CoroutineScope by MainScope() {
+    private val getSuperHeroes: GetSuperHeroes,
+    private val executor: ExecutorService
+) {
 
-    private val view: View? by weak(
-        view
-    )
+    private val view: View? by weak(view)
 
     fun onResume() {
         view?.showLoading()
@@ -24,11 +19,11 @@ class SuperHeroesPresenter(
     }
 
     fun onDestroy() {
-        cancel()
+        executor.shutdownNow()
     }
 
-    private fun refreshSuperHeroes() = launch {
-        val result = async { getSuperHeroes() }
+    private fun refreshSuperHeroes() = executor.submit {
+        val result = getSuperHeroes()
         view?.hideLoading()
         when {
             result.isEmpty() -> view?.showEmptyCase()

@@ -49,25 +49,25 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
         recycler_view.adapter = adapter
     }
 
-    override fun showLoading() {
+    override fun showLoading() = runOnUiThread {
         progress_bar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideLoading() = runOnUiThread {
         progress_bar.visibility = View.GONE
     }
 
-    override fun showEmptyCase() {
+    override fun showEmptyCase() = runOnUiThread {
         tv_empty_case.visibility = View.VISIBLE
     }
 
-    override fun showSuperHeroes(superHeroes: List<SuperHero>) {
+    override fun showSuperHeroes(superHeroes: List<SuperHero>) = runOnUiThread {
         adapter.clear()
         adapter.addAll(superHeroes)
         adapter.notifyDataSetChanged()
     }
 
-    override fun openDetail(id: String) {
+    override fun openDetail(id: String) = runOnUiThread {
         SuperHeroDetailActivity.open(
             activity = this,
             superHeroId = id
@@ -76,7 +76,7 @@ class MainActivity : BaseActivity(), SuperHeroesPresenter.View {
 
     override val activityModules = module {
         bind<SuperHeroesPresenter>() with provider {
-            SuperHeroesPresenter(this@MainActivity, instance())
+            SuperHeroesPresenter(this@MainActivity, instance(), instance())
         }
         bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
     }

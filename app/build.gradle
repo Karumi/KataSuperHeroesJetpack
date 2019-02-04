@@ -40,10 +40,6 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
 
-    /* Coroutines */
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0"
-
     /* DI */
     implementation "org.kodein.di:kodein-di-erased-jvm:6.0.1"
     implementation "org.kodein.di:kodein-di-framework-android-x:6.0.1"
@@ -63,7 +59,6 @@ dependencies {
         exclude group: "com.android.support"
     }
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.0"
 }
 
 shot {
@@ -82,8 +77,4 @@ task ktlintFormat(type: JavaExec) {
     main = "com.github.shyiko.ktlint.Main"
     classpath = configurations.ktlint
     args "-F", "src/**/*.kt"
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
-    kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
 }

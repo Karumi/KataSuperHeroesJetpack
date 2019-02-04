@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
@@ -38,7 +37,7 @@ class EditSuperHeroActivityTest :
             true,
             ""
         )
-        whenever(runBlocking { repository.get(ANY_ID) }).thenReturn(superHero)
+        whenever(repository.get(ANY_ID)).thenReturn(superHero)
         return superHero
     }
 

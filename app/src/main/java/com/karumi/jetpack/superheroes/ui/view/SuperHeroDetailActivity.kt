@@ -54,17 +54,17 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         presenter.preparePresenter(superHeroId)
     }
 
-    override fun close() = finish()
+    override fun close() = runOnUiThread { finish() }
 
-    override fun showLoading() {
+    override fun showLoading() = runOnUiThread {
         progress_bar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideLoading() = runOnUiThread {
         progress_bar.visibility = View.GONE
     }
 
-    override fun showSuperHero(superHero: SuperHero) {
+    override fun showSuperHero(superHero: SuperHero) = runOnUiThread {
         title = superHero.name
         tv_super_hero_name.text = superHero.name
         tv_super_hero_description.text = superHero.description
@@ -75,13 +75,13 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         super_hero_background.visibility = View.VISIBLE
     }
 
-    override fun openEditSuperHero(superHeroId: String) {
+    override fun openEditSuperHero(superHeroId: String) = runOnUiThread {
         EditSuperHeroActivity.open(this, superHeroId)
     }
 
     override val activityModules = module {
         bind<SuperHeroDetailPresenter>() with provider {
-            SuperHeroDetailPresenter(this@SuperHeroDetailActivity, instance())
+            SuperHeroDetailPresenter(this@SuperHeroDetailActivity, instance(), instance())
         }
         bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
     }

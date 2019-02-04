@@ -6,6 +6,6 @@ import com.karumi.jetpack.superheroes.domain.model.SuperHero
 
 class SaveSuperHero(private val superHeroesRepository: SuperHeroRepository) {
     @WorkerThread
-    suspend operator fun invoke(superHero: SuperHero): SuperHero? =
+    operator fun invoke(superHero: SuperHero): SuperHero? =
         superHeroesRepository.save(superHero)
 }

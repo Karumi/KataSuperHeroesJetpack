@@ -1,18 +1,15 @@
 package com.karumi.jetpack.superheroes.ui.presenter
 
-import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import java.util.concurrent.ExecutorService
 
 class SuperHeroDetailPresenter(
     view: View,
-    private val getSuperHeroById: GetSuperHeroById
-) : CoroutineScope by MainScope() {
+    private val getSuperHeroById: GetSuperHeroById,
+    private val executor: ExecutorService
+) {
 
     private val view: View? by weak(view)
 
@@ -32,15 +29,15 @@ class SuperHeroDetailPresenter(
     }
 
     fun onDestroy() {
-        cancel()
+        executor.shutdownNow()
     }
 
     fun onEditSelected() {
         view?.openEditSuperHero(id)
     }
 
-    private fun refreshSuperHero() = launch {
-        val superHero = async { getSuperHeroById(id) } ?: return@launch
+    private fun refreshSuperHero() = executor.submit {
+        val superHero = getSuperHeroById(id) ?: return@submit
         view?.hideLoading()
         view?.showSuperHero(superHero)
     }

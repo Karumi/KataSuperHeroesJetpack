@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
@@ -41,7 +40,7 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
         val superHeroName = "SuperHero"
         val superHeroDescription = "Super Hero Description"
         val superHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
-        whenever(runBlocking { repository.get(superHeroId) }).thenReturn(superHero)
+        whenever(repository.get(superHeroId)).thenReturn(superHero)
         return superHero
     }
 

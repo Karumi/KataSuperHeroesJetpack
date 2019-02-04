@@ -60,25 +60,25 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         presenter.preparePresenter(superHeroId)
     }
 
-    override fun close() {
+    override fun close() = runOnUiThread {
         finish()
     }
 
-    override fun showLoading() {
+    override fun showLoading() = runOnUiThread {
         et_super_hero_name.isEnabled = false
         et_super_hero_description.isEnabled = false
         bt_save_edition.isEnabled = false
         progress_bar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideLoading() = runOnUiThread {
         et_super_hero_name.isEnabled = true
         et_super_hero_description.isEnabled = true
         bt_save_edition.isEnabled = true
         progress_bar.visibility = View.GONE
     }
 
-    override fun showSuperHero(superHero: SuperHero) {
+    override fun showSuperHero(superHero: SuperHero) = runOnUiThread {
         et_super_hero_name.setText(superHero.name)
         et_super_hero_description.setText(superHero.description)
         iv_super_hero_photo.setImageBackground(superHero.photo)
@@ -87,7 +87,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
 
     override val activityModules = module {
         bind<EditSuperHeroPresenter>() with provider {
-            EditSuperHeroPresenter(this@EditSuperHeroActivity, instance(), instance())
+            EditSuperHeroPresenter(this@EditSuperHeroActivity, instance(), instance(), instance())
         }
         bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
         bind<SaveSuperHero>() with provider { SaveSuperHero(instance()) }

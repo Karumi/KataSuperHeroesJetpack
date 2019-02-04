@@ -13,6 +13,8 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
 import org.kodein.di.erased.singleton
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class SuperHeroesApplication : Application(), KodeinAware {
     override var kodein = Kodein.lazy {
@@ -37,6 +39,9 @@ class SuperHeroesApplication : Application(), KodeinAware {
         }
         bind<RemoteSuperHeroDataSource>() with provider {
             RemoteSuperHeroDataSource()
+        }
+        bind<ExecutorService>() with provider {
+            Executors.newCachedThreadPool()
         }
     }
 }

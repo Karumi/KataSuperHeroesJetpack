@@ -6,5 +6,5 @@ import com.karumi.jetpack.superheroes.domain.model.SuperHero
 
 class GetSuperHeroById(private val superHeroesRepository: SuperHeroRepository) {
     @WorkerThread
-    suspend operator fun invoke(id: String): SuperHero? = superHeroesRepository.get(id)
+    operator fun invoke(id: String): SuperHero? = superHeroesRepository.get(id)
 }

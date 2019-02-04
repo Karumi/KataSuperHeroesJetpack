@@ -1,20 +1,17 @@
 package com.karumi.jetpack.superheroes.ui.presenter
 
-import com.karumi.jetpack.superheroes.common.async
 import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import java.util.concurrent.ExecutorService
 
 class EditSuperHeroPresenter(
     view: View,
     private val getSuperHeroById: GetSuperHeroById,
-    private val saveSuperHero: SaveSuperHero
-) : CoroutineScope by MainScope() {
+    private val saveSuperHero: SaveSuperHero,
+    private val executor: ExecutorService
+) {
 
     private val view: View? by weak(view)
     private lateinit var id: String
@@ -34,7 +31,7 @@ class EditSuperHeroPresenter(
     }
 
     fun onDestroy() {
-        cancel()
+        executor.shutdownNow()
     }
 
     fun onSaveSuperHeroSelected(
@@ -42,24 +39,28 @@ class EditSuperHeroPresenter(
         description: String,
         isAvenger: Boolean
     ) {
-        launch {
-            view?.showLoading()
-            val superHero = superHero ?: return@launch
-            async {
-                saveSuperHero(
-                    superHero.copy(
-                        name = name,
-                        description = description,
-                        isAvenger = isAvenger
-                    )
-                )
-            }
-            view?.close()
-        }
+        saveSuperHero(name, description, isAvenger)
     }
 
-    private fun refreshSuperHero() = launch {
-        val superHero = async { getSuperHeroById(id) } ?: return@launch
+    private fun saveSuperHero(
+        name: String,
+        description: String,
+        isAvenger: Boolean
+    ) = executor.submit {
+        view?.showLoading()
+        val superHero = superHero ?: return@submit
+        saveSuperHero(
+            superHero.copy(
+                name = name,
+                description = description,
+                isAvenger = isAvenger
+            )
+        )
+        view?.close()
+    }
+
+    private fun refreshSuperHero() = executor.submit {
+        val superHero = getSuperHeroById(id) ?: return@submit
         view?.hideLoading()
         view?.showSuperHero(superHero)
         this@EditSuperHeroPresenter.superHero = superHero

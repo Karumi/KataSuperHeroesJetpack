@@ -1,7 +1,6 @@
 package com.karumi.jetpack.superheroes.data.repository
 
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import kotlinx.coroutines.delay
 
 class RemoteSuperHeroDataSource {
     companion object {
@@ -14,24 +13,24 @@ class RemoteSuperHeroDataSource {
         superHeroes = fakeData().associateBy { it.id }.toMutableMap()
     }
 
-    suspend fun getAllSuperHeroes(): List<SuperHero> {
+    fun getAllSuperHeroes(): List<SuperHero> {
         waitABit()
         return superHeroes.values.toList()
     }
 
-    suspend fun get(id: String): SuperHero? {
+    fun get(id: String): SuperHero? {
         waitABit()
         return superHeroes[id]
     }
 
-    suspend fun save(superHero: SuperHero): SuperHero {
+    fun save(superHero: SuperHero): SuperHero {
         waitABit()
         superHeroes[superHero.id] = superHero
         return superHero
     }
 
-    private suspend fun waitABit() {
-        delay(BIT_TIME)
+    private fun waitABit() {
+        Thread.sleep(BIT_TIME)
     }
 
     private fun fakeData(): List<SuperHero> {
