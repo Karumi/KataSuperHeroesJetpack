@@ -15,11 +15,15 @@ class RemoteSuperHeroDataSource(
     private val superHeroes: MutableMap<String, SuperHero> =
         fakeData().associateBy { it.id }.toMutableMap()
 
-    fun getAllSuperHeroes(): LiveData<List<SuperHero>> {
+    fun getSuperHeroesPage(pageIndex: Int, pageSize: Int): LiveData<List<SuperHero>> {
         val allSuperHeroes = MutableLiveData<List<SuperHero>>()
         executor.execute {
             waitABit()
-            allSuperHeroes.postValue(superHeroes.values.toList().sortedBy { it.id })
+            val superHeroesPage = superHeroes.values.toList()
+                .sortedBy { it.id }
+                .drop(pageIndex * pageSize)
+                .take(pageSize)
+            allSuperHeroes.postValue(superHeroesPage)
         }
         return allSuperHeroes
     }

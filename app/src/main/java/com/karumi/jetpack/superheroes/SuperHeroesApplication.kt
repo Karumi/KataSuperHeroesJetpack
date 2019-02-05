@@ -6,6 +6,7 @@ import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.RemoteSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import com.karumi.jetpack.superheroes.data.repository.SuperHeroesBoundaryCallback
 import com.karumi.jetpack.superheroes.data.repository.room.SuperHeroDao
 import org.kodein.di.DKodein
 import org.kodein.di.Kodein
@@ -41,9 +42,12 @@ class SuperHeroesApplication : Application(), KodeinAware {
             database.superHeroesDao()
         }
         bind<SuperHeroRepository>() with provider {
-            SuperHeroRepository(instance(), instance())
+            SuperHeroRepository(instance(), instance(), instance())
         }
-        bind<LocalSuperHeroDataSource>() with singleton {
+        bind<SuperHeroesBoundaryCallback>() with provider {
+            SuperHeroesBoundaryCallback(instance(), instance())
+        }
+        bind<LocalSuperHeroDataSource>() with provider {
             LocalSuperHeroDataSource(instance(), instance())
         }
         bind<RemoteSuperHeroDataSource>() with provider {

@@ -2,22 +2,20 @@ package com.karumi.jetpack.superheroes.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.paging.PagedList
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 
 class SuperHeroRepository(
     private val local: LocalSuperHeroDataSource,
-    private val remote: RemoteSuperHeroDataSource
+    private val remote: RemoteSuperHeroDataSource,
+    private val boundaryCallback: SuperHeroesBoundaryCallback
 ) {
-    fun getAllSuperHeroes(): LiveData<List<SuperHero>> = MediatorLiveData<List<SuperHero>>().apply {
-        val localSource = local.getAllSuperHeroes()
-        val remoteSource = remote.getAllSuperHeroes()
-
-        addSource(remoteSource) { superHeroes ->
-            removeSource(remoteSource)
-            addSource(localSource) { postValue(it) }
-            local.saveAll(superHeroes)
-        }
+    companion object {
+        const val PAGE_SIZE = 4
     }
+
+    fun getAllSuperHeroes(): LiveData<PagedList<SuperHero>> =
+        local.getAllSuperHeroes(PAGE_SIZE, boundaryCallback)
 
     fun get(id: String): LiveData<SuperHero?> = MediatorLiveData<SuperHero?>().apply {
         addSource(local.get(id)) {
