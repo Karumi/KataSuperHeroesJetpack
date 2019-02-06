@@ -20,7 +20,7 @@
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/super_hero_row_height"
-    android:onClick="@{ () -> listener.onSuperHeroClicked(superHero.id) }">
+    android:onClick="@{ () -> listener.onSuperHeroClicked(superHero.id, superHero.name) }">
 
     <ImageView
       android:id="@+id/iv_super_hero_photo"

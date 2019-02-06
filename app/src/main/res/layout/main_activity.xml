@@ -1,66 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="com.karumi.jetpack.superheroes.ui.view.MainActivity">
 
-  <data>
-
-    <import type="android.view.View" />
-
-    <variable
-      name="viewModel"
-      type="com.karumi.jetpack.superheroes.ui.viewmodel.SuperHeroesViewModel" />
-  </data>
-
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.karumi.jetpack.superheroes.ui.view.MainActivity">
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    app:layout_constraintTop_toTopOf="parent"
+    app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <androidx.appcompat.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="?attr/colorPrimary"
-      android:theme="@style/AppTheme.AppBarOverlay"
-      app:layout_constraintTop_toTopOf="parent"
-      app:popupTheme="@style/AppTheme.PopupOverlay" />
+  <fragment
+    android:id="@+id/nav_host_fragment"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:defaultNavHost="true"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar"
+    app:navGraph="@navigation/navigation_graph" />
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/recycler_view"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_below="@id/toolbar"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/toolbar"
-      tools:context="com.karumi.screenshot.ui.view.MainActivity"
-      tools:listitem="@layout/super_hero_row"
-      tools:showIn="@layout/main_activity" />
-
-    <androidx.core.widget.ContentLoadingProgressBar
-      android:id="@+id/progress_bar"
-      style="?android:attr/progressBarStyleLarge"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE }"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-      android:id="@+id/tv_empty_case"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerInParent="true"
-      android:text="¯\\_(ツ)_/¯"
-      android:textColor="@android:color/white"
-      android:visibility="@{ viewModel.isShowingEmptyCase ? View.VISIBLE : View.GONE }"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:visibility="visible" />
-
-  </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

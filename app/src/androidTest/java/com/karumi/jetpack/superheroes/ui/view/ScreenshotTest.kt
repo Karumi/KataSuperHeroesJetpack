@@ -1,18 +1,19 @@
 package com.karumi.jetpack.superheroes.ui.view
 
-import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.platform.app.InstrumentationRegistry
 import com.facebook.testing.screenshot.Screenshot
 import com.facebook.testing.screenshot.ViewHelpers
 
 interface ScreenshotTest {
-    fun compareScreenshot(activity: Activity) {
-        Screenshot.snapActivity(activity).record()
+    fun compareScreenshot(fragment: Fragment) {
+        Thread.sleep(100)
+        Screenshot.snapActivity(fragment.requireActivity()).record()
     }
 
     fun compareScreenshot(holder: RecyclerView.ViewHolder, height: Int) {

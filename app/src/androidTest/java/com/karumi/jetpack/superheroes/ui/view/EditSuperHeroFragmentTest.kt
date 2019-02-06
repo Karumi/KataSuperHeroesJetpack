@@ -11,8 +11,7 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.mockito.Mock
 
-class EditSuperHeroActivityTest :
-    AcceptanceTest<EditSuperHeroActivity>(EditSuperHeroActivity::class.java) {
+class EditSuperHeroFragmentTest : FragmentTest<EditSuperHeroFragment>() {
 
     companion object {
         private const val ANY_ID = "#1"
@@ -20,12 +19,13 @@ class EditSuperHeroActivityTest :
 
     @Mock
     private lateinit var repository: SuperHeroRepository
+    override val fragmentBlock = { EditSuperHeroFragment() }
 
     @Test
     fun showsJustOneSuperHero() {
         val superHero = givenThereIsASuperHero()
 
-        val activity = startActivity(superHero)
+        val activity = startFragment(superHero)
 
         compareScreenshot(activity)
     }
@@ -42,10 +42,12 @@ class EditSuperHeroActivityTest :
         return superHero
     }
 
-    private fun startActivity(superHero: SuperHero): EditSuperHeroActivity {
-        val args = Bundle()
-        args.putString("super_hero_id_key", superHero.id)
-        return startActivity(args)
+    private fun startFragment(superHero: SuperHero): EditSuperHeroFragment {
+        val args = Bundle().apply {
+            putString("superHeroId", superHero.id)
+            putString("superHeroName", superHero.name)
+        }
+        return startFragment(args)
     }
 
     override val testDependencies = Kodein.Module("Test dependencies", allowSilentOverride = true) {

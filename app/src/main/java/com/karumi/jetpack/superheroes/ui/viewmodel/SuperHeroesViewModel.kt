@@ -17,7 +17,7 @@ class SuperHeroesViewModel(
     val isLoading = MutableLiveData<Boolean>()
     val isShowingEmptyCase = MutableLiveData<Boolean>()
     val superHeroes = MediatorLiveData<PagedList<SuperHero>>()
-    val idOfSuperHeroToOpen = SingleLiveEvent<String>()
+    val superHeroToOpen = SingleLiveEvent<SuperHeroToOpen>()
 
     fun prepare() {
         isLoading.value = true
@@ -28,11 +28,13 @@ class SuperHeroesViewModel(
         }
     }
 
-    override fun onSuperHeroClicked(id: String) {
-        idOfSuperHeroToOpen.value = id
+    override fun onSuperHeroClicked(id: String, name: String) {
+        superHeroToOpen.value = SuperHeroToOpen(id, name)
     }
 }
 
 interface SuperHeroesListener {
-    fun onSuperHeroClicked(id: String)
+    fun onSuperHeroClicked(id: String, name: String)
 }
+
+data class SuperHeroToOpen(val id: String, val name: String)
