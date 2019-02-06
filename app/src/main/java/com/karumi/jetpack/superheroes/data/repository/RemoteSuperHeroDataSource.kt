@@ -15,7 +15,7 @@ class RemoteSuperHeroDataSource {
 
     fun getAllSuperHeroes(): List<SuperHero> {
         waitABit()
-        return superHeroes.values.toList()
+        return superHeroes.values.toList().sortedBy { it.id }
     }
 
     fun get(id: String): SuperHero? {
@@ -36,7 +36,7 @@ class RemoteSuperHeroDataSource {
     private fun fakeData(): List<SuperHero> {
         return listOf(
             SuperHero(
-                id = "ScarletWitch",
+                id = "01ScarletWitch",
                 name = "Scarlet Witch",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/b0/537bc2375dfb9.jpg",
                 isAvenger = false,
@@ -49,7 +49,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "IronMan",
+                id = "02IronMan",
                 name = "Iron Man",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/c/60/55b6a28ef24fa.jpg",
                 isAvenger = true,
@@ -61,7 +61,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "Wolverine",
+                id = "03Wolverine",
                 name = "Wolverine",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/00/537bcb1133fd7.jpg",
                 isAvenger = false,
@@ -72,7 +72,7 @@ class RemoteSuperHeroDataSource {
                         |""".trimMargin()
             ),
             SuperHero(
-                id = "Hulk",
+                id = "04Hulk",
                 name = "Hulk",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/e/e0/537bafa34baa9.jpg",
                 isAvenger = true,
@@ -84,7 +84,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "Storm",
+                id = "05Storm",
                 name = "Storm",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/c/b0/537bc5f8a8df0.jpg",
                 isAvenger = false,
@@ -94,7 +94,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "SpiderMan",
+                id = "06SpiderMan",
                 name = "Spider-Man",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/6/60/538cd3628a05e.jpg",
                 isAvenger = true,
@@ -106,7 +106,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "Ultron",
+                id = "07Ultron",
                 name = "Ultron",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/a0/537bc7f6d5d23.jpg",
                 isAvenger = false,
@@ -117,7 +117,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "BlackPanther",
+                id = "08BlackPanther",
                 name = "Black Panther",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/9/03/537ba26276348.jpg",
                 isAvenger = false,
@@ -132,7 +132,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "CaptainAmerica",
+                id = "09CaptainAmerica",
                 name = "Captain America",
                 photo = "http://x.annihil.us/u/prod/marvel/i/mg/9/80/537ba5b368b7d.jpg",
                 isAvenger = true,
@@ -145,7 +145,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "WinterSoldier",
+                id = "10WinterSoldier",
                 name = "Winter Soldier",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/7/40/537bca868687c.jpg",
                 isAvenger = false,
@@ -156,7 +156,7 @@ class RemoteSuperHeroDataSource {
                     |including German and Russian.""".trimMargin()
             ),
             SuperHero(
-                id = "CaptainMarvel",
+                id = "11CaptainMarvel",
                 name = "Captain Marvel",
                 photo = "https://x.annihil.us/u/prod/marvel/i/mg/6/30/537ba61b764b4.jpg",
                 isAvenger = false,
@@ -166,7 +166,7 @@ class RemoteSuperHeroDataSource {
                     |""".trimMargin()
             ),
             SuperHero(
-                id = "IronFist",
+                id = "12IronFist",
                 name = "Iron Fist",
                 photo = "https://i.annihil.us/u/prod/marvel/i/mg/6/60/537bb1756cd26.jpg",
                 isAvenger = false,
