@@ -3,10 +3,10 @@ package com.karumi.jetpack.superheroes.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executor
 
 class RemoteSuperHeroDataSource(
-    private val executor: ExecutorService
+    private val executor: Executor
 ) {
     companion object {
         private const val BIT_TIME = 1500L
