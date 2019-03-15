@@ -1,8 +1,11 @@
 package com.karumi.jetpack.superheroes.data.repository
 
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
+import java.util.concurrent.ExecutorService
 
-class RemoteSuperHeroDataSource {
+class RemoteSuperHeroDataSource(
+    private val executor: ExecutorService
+) {
     companion object {
         private const val BIT_TIME = 1500L
     }
@@ -24,8 +27,10 @@ class RemoteSuperHeroDataSource {
     }
 
     fun save(superHero: SuperHero): SuperHero {
-        waitABit()
-        superHeroes[superHero.id] = superHero
+        executor.execute {
+            waitABit()
+            superHeroes[superHero.id] = superHero
+        }
         return superHero
     }
 

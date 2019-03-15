@@ -34,10 +34,10 @@ class SuperHeroesApplication : Application(), KodeinAware {
             SuperHeroRepository(instance(), instance())
         }
         bind<LocalSuperHeroDataSource>() with singleton {
-            LocalSuperHeroDataSource()
+            LocalSuperHeroDataSource(instance())
         }
         bind<RemoteSuperHeroDataSource>() with provider {
-            RemoteSuperHeroDataSource()
+            RemoteSuperHeroDataSource(instance())
         }
         bind<ExecutorService>() with provider {
             Executors.newCachedThreadPool()

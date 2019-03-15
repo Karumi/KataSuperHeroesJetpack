@@ -1,8 +1,11 @@
 package com.karumi.jetpack.superheroes.data.repository
 
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
+import java.util.concurrent.ExecutorService
 
-class LocalSuperHeroDataSource {
+class LocalSuperHeroDataSource(
+    private val executor: ExecutorService
+) {
     companion object {
         private const val BIT_TIME = 250L
     }
@@ -19,15 +22,17 @@ class LocalSuperHeroDataSource {
         return superHeroes[id]
     }
 
-    fun saveAll(all: List<SuperHero>) {
+    fun saveAll(all: List<SuperHero>) = executor.execute {
         waitABit()
         superHeroes.clear()
         superHeroes.putAll(all.associateBy { it.id })
     }
 
     fun save(superHero: SuperHero): SuperHero {
-        waitABit()
-        superHeroes[superHero.id] = superHero
+        executor.execute {
+            waitABit()
+            superHeroes[superHero.id] = superHero
+        }
         return superHero
     }
 
