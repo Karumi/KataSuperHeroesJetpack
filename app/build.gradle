@@ -1,80 +1,112 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: "shot"
 
 android {
-    compileSdkVersion 28
-    defaultConfig {
-        applicationId "com.karumi.superheroes.jetpack"
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "com.karumi.TestRunner"
+  compileSdkVersion 28
+  defaultConfig {
+    applicationId "com.karumi.superheroes.jetpack"
+    minSdkVersion 16
+    targetSdkVersion 28
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "com.karumi.TestRunner"
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+      }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
+  }
+  sourceSets {
+    androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+  }
+  dataBinding {
+    enabled = true
+  }
 }
 
 configurations {
-    ktlint
+  ktlint
 }
 
 dependencies {
-    /* Lint */
-    ktlint "com.github.shyiko:ktlint:0.29.0"
+  /* Lint */
+  ktlint "com.github.shyiko:ktlint:0.30.0"
 
-    /* Kotlin */
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  /* Kotlin */
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    /* Jetpack */
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
+  /* Jetpack */
+  implementation "androidx.appcompat:appcompat:1.0.2"
+  implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
+  implementation "androidx.recyclerview:recyclerview:1.0.0"
+  implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
+  implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+  implementation "androidx.paging:paging-runtime-ktx:2.1.0"
+  implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
+  implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+  implementation "androidx.room:room-runtime:2.1.0-alpha05"
+  implementation "android.arch.work:work-runtime-ktx:1.0.0"
+  kapt "androidx.room:room-compiler:2.1.0-alpha05"
+  implementation "androidx.fragment:fragment:1.1.0-alpha05"
+  debugImplementation "androidx.fragment:fragment-testing:1.1.0-alpha05"
 
-    /* DI */
-    implementation "org.kodein.di:kodein-di-erased-jvm:6.0.1"
-    implementation "org.kodein.di:kodein-di-framework-android-x:6.0.1"
+  /* DI */
+  implementation "org.kodein.di:kodein-di-erased-jvm:6.0.1"
+  implementation "org.kodein.di:kodein-di-framework-android-x:6.0.1"
 
-    /* UI */
-    implementation "com.squareup.picasso:picasso:2.5.2"
-    implementation "com.google.android.material:material:1.0.0"
+  /* UI */
+  implementation "com.squareup.picasso:picasso:2.5.2"
+  implementation "com.google.android.material:material:1.0.0"
 
-    /* Testing */
-    testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:2.23.4"
-    androidTestImplementation "org.mockito:mockito-android:2.23.4"
-    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-    androidTestImplementation "com.github.tmurakami:dexopener:2.0.0"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
-    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:3.0.2") {
-        exclude group: "com.android.support"
-    }
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
+  /* Testing */
+  testImplementation "androidx.test.ext:junit:1.1.0"
+  testImplementation "org.mockito:mockito-core:2.23.4"
+  testImplementation "androidx.room:room-testing:2.1.0-alpha05"
+  androidTestImplementation "androidx.test.ext:junit:1.1.0"
+  androidTestImplementation "org.mockito:mockito-android:2.23.4"
+  androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+  androidTestImplementation "com.github.tmurakami:dexopener:2.0.0"
+  androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+  androidTestImplementation "androidx.test.espresso:espresso-contrib:3.1.1"
+  androidTestImplementation "androidx.test.espresso:espresso-intents:3.1.1"
+  androidTestImplementation "androidx.room:room-testing:2.1.0-alpha05"
+  androidTestImplementation "android.arch.work:work-testing:1.0.0"
 }
 
 shot {
-    appId = "com.karumi.superheroes.jetpack"
+  appId = "com.karumi.superheroes.jetpack"
 }
 
 task ktlint(type: JavaExec) {
-    main = "com.github.shyiko.ktlint.Main"
-    classpath = configurations.ktlint
-    args "src/**/*.kt"
+  main = "com.github.shyiko.ktlint.Main"
+  classpath = configurations.ktlint
+  args "src/**/*.kt"
 }
 
 check.dependsOn ktlint
 
 task ktlintFormat(type: JavaExec) {
-    main = "com.github.shyiko.ktlint.Main"
-    classpath = configurations.ktlint
-    args "-F", "src/**/*.kt"
+  main = "com.github.shyiko.ktlint.Main"
+  classpath = configurations.ktlint
+  args "-F", "src/**/*.kt"
+}
+
+configurations.all {
+  resolutionStrategy {
+    force "androidx.test:core:1.1.0-alpha01"
+    force "androidx.test:monitor:1.1.1-alpha01"
+  }
 }
