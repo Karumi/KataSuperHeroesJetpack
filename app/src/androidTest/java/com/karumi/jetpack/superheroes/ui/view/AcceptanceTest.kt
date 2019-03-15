@@ -3,11 +3,11 @@ package com.karumi.jetpack.superheroes.ui.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.intent.rule.IntentsTestRule
-import android.support.test.filters.LargeTest
-import android.support.test.runner.AndroidJUnit4
-import com.karumi.jetpack.superheroes.asApp
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.intent.rule.IntentsTestRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
+import com.karumi.jetpack.superheroes.SuperHeroesApplication
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Before
@@ -24,9 +24,13 @@ import java.util.concurrent.FutureTask
 @RunWith(AndroidJUnit4::class)
 abstract class AcceptanceTest<T : Activity>(clazz: Class<T>) : ScreenshotTest {
 
+    companion object {
+        private const val doNotLaunchActivityAtLunch = false
+    }
+
     @Rule
     @JvmField
-    val testRule: IntentsTestRule<T> = IntentsTestRule(clazz, true, false)
+    val testRule: IntentsTestRule<T> = IntentsTestRule(clazz, true, doNotLaunchActivityAtLunch)
 
     private val executorServiceOnUiThread = mock<ExecutorService> {
         on(it.submit(any())).thenAnswer { invocation ->
@@ -38,10 +42,9 @@ abstract class AcceptanceTest<T : Activity>(clazz: Class<T>) : ScreenshotTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        val app = InstrumentationRegistry.getInstrumentation().targetContext.asApp()
+        val app = ApplicationProvider.getApplicationContext<SuperHeroesApplication>()
         app.override(Kodein.Module("Base test dependencies", allowSilentOverride = true) {
             import(testDependencies, allowOverride = true)
-
             bind<ExecutorService>() with instance(executorServiceOnUiThread)
         })
     }

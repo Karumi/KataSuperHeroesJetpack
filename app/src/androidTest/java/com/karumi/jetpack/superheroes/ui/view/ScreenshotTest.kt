@@ -2,11 +2,11 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.app.Activity
 import android.content.Context
-import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.platform.app.InstrumentationRegistry
 import com.facebook.testing.screenshot.Screenshot
 import com.facebook.testing.screenshot.ViewHelpers
 
@@ -20,7 +20,7 @@ interface ScreenshotTest {
     }
 
     fun compareScreenshot(view: View, height: Int) {
-        val context = getInstrumentation().targetContext
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val metrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(metrics)

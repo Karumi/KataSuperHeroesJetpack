@@ -1,7 +1,7 @@
 package com.karumi.jetpack.superheroes.ui.view
 
-import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.view.LayoutInflater
+import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
@@ -52,7 +52,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
     }
 
     private fun givenASuperHeroViewHolder(): SuperHeroViewHolder {
-        val context = getInstrumentation().targetContext
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.super_hero_row, null, false)
         return SuperHeroViewHolder(

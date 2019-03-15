@@ -1,7 +1,6 @@
 package com.karumi.jetpack.superheroes
 
 import android.app.Application
-import android.content.Context
 import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.RemoteSuperHeroDataSource
@@ -45,5 +44,3 @@ class SuperHeroesApplication : Application(), KodeinAware {
         }
     }
 }
-
-fun Context.asApp() = this.applicationContext as SuperHeroesApplication
