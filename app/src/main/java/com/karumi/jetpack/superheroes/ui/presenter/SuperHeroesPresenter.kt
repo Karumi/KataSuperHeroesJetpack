@@ -37,9 +37,9 @@ class SuperHeroesPresenter(
 
     interface View {
         fun hideLoading()
-        fun showSuperHeroes(superHeroes: List<SuperHero>)
         fun showLoading()
         fun showEmptyCase()
+        fun showSuperHeroes(superHeroes: List<SuperHero>)
         fun openDetail(id: String)
     }
 }

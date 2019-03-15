@@ -11,7 +11,7 @@ class EditSuperHeroPresenter(
     private val getSuperHeroById: GetSuperHeroById,
     private val saveSuperHero: SaveSuperHero,
     private val executor: ExecutorService
-) {
+) : EditSuperHeroListener {
 
     private val view: View? by weak(view)
     private lateinit var id: String
@@ -34,7 +34,7 @@ class EditSuperHeroPresenter(
         executor.shutdownNow()
     }
 
-    fun onSaveSuperHeroSelected(
+    override fun onSaveSuperHeroSelected(
         name: String,
         description: String,
         isAvenger: Boolean
@@ -72,4 +72,12 @@ class EditSuperHeroPresenter(
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)
     }
+}
+
+interface EditSuperHeroListener {
+    fun onSaveSuperHeroSelected(
+        name: String,
+        description: String,
+        isAvenger: Boolean
+    )
 }

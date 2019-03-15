@@ -5,6 +5,7 @@ import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.RemoteSuperHeroDataSource
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import org.kodein.di.DKodein
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.androidModule
@@ -42,5 +43,6 @@ class SuperHeroesApplication : Application(), KodeinAware {
         bind<ExecutorService>() with provider {
             Executors.newCachedThreadPool()
         }
+        bind<DKodein>() with provider { this }
     }
 }

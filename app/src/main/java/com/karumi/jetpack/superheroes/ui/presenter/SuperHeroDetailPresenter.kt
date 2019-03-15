@@ -9,7 +9,7 @@ class SuperHeroDetailPresenter(
     view: View,
     private val getSuperHeroById: GetSuperHeroById,
     private val executor: ExecutorService
-) {
+) : SuperHeroDetailListener {
 
     private val view: View? by weak(view)
 
@@ -32,7 +32,7 @@ class SuperHeroDetailPresenter(
         executor.shutdownNow()
     }
 
-    fun onEditSelected() {
+    override fun onEditSelected() {
         view?.openEditSuperHero(id)
     }
 
@@ -49,4 +49,8 @@ class SuperHeroDetailPresenter(
         fun showSuperHero(superHero: SuperHero)
         fun openEditSuperHero(superHeroId: String)
     }
+}
+
+interface SuperHeroDetailListener {
+    fun onEditSelected()
 }
