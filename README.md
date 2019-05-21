@@ -44,15 +44,13 @@ To be able to get a deterministic test scenario all our tests will be executed o
 
 Your task as Android Developer is to **migrate the application to Jetpack components**. You will do so step by step and always using tests to verify everything is still working.
 
-**This repository is ready to build the application, pass the checkstyle and your tests in Travis-CI environments.**
-
 Our recommendation for this exercise is:
 
 - Before starting
   1. Fork this repository.
-  2. Checkout `kata-jetpack` branch.
+  2. Checkout `00-start` branch.
   3. Execute the application, explore it manually and make yourself familiar with the code.
-  4. Execute `MainActivityTest` and `SuperHeroDetailActivityTest` to see tests run.
+  4. Execute `MainActivityTest`, `SuperHeroDetailActivityTest` and `EditSuperHeroActivityTest` to see tests run.
 - Feel free to migrate at your own pace and order but if you want to make it a bit easier, follow this order:
    1. [Lifecycle][lifecycle]
    2. [Room][room]

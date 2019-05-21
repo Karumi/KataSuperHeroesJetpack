@@ -43,47 +43,47 @@ configurations {
 
 dependencies {
   /* Lint */
-  ktlint "com.github.shyiko:ktlint:0.30.0"
+  ktlint "com.pinterest:ktlint:0.32.0"
 
   /* Kotlin */
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
   /* Jetpack */
   implementation "androidx.appcompat:appcompat:1.0.2"
-  implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
+  implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
   implementation "androidx.recyclerview:recyclerview:1.0.0"
   implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
   implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
   implementation "androidx.paging:paging-runtime-ktx:2.1.0"
   implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
   implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
-  implementation "androidx.room:room-runtime:2.1.0-alpha05"
-  implementation "android.arch.work:work-runtime-ktx:1.0.0"
-  kapt "androidx.room:room-compiler:2.1.0-alpha05"
-  implementation "androidx.fragment:fragment:1.1.0-alpha05"
-  debugImplementation "androidx.fragment:fragment-testing:1.1.0-alpha05"
+  implementation "androidx.room:room-runtime:2.1.0-beta01"
+  implementation "android.arch.work:work-runtime-ktx:1.0.1"
+  kapt "androidx.room:room-compiler:2.1.0-beta01"
+  implementation "androidx.fragment:fragment:1.1.0-alpha09"
+  debugImplementation "androidx.fragment:fragment-testing:1.1.0-alpha09"
 
   /* DI */
   implementation "org.kodein.di:kodein-di-erased-jvm:6.0.1"
   implementation "org.kodein.di:kodein-di-framework-android-x:6.0.1"
 
   /* UI */
-  implementation "com.squareup.picasso:picasso:2.5.2"
+  implementation "com.squareup.picasso:picasso:2.71828"
   implementation "com.google.android.material:material:1.0.0"
 
   /* Testing */
   testImplementation "androidx.test.ext:junit:1.1.0"
-  testImplementation "org.mockito:mockito-core:2.23.4"
-  testImplementation "androidx.room:room-testing:2.1.0-alpha05"
+  testImplementation "org.mockito:mockito-core:2.27.0"
+  testImplementation "androidx.room:room-testing:2.1.0-beta01"
   androidTestImplementation "androidx.test.ext:junit:1.1.0"
-  androidTestImplementation "org.mockito:mockito-android:2.23.4"
+  androidTestImplementation "org.mockito:mockito-android:2.27.0"
   androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-  androidTestImplementation "com.github.tmurakami:dexopener:2.0.0"
+  androidTestImplementation "com.github.tmurakami:dexopener:2.0.2"
   androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
   androidTestImplementation "androidx.test.espresso:espresso-contrib:3.1.1"
   androidTestImplementation "androidx.test.espresso:espresso-intents:3.1.1"
-  androidTestImplementation "androidx.room:room-testing:2.1.0-alpha05"
-  androidTestImplementation "android.arch.work:work-testing:1.0.0"
+  androidTestImplementation "androidx.room:room-testing:2.1.0-beta01"
+  androidTestImplementation "android.arch.work:work-testing:1.0.1"
 }
 
 shot {
@@ -91,7 +91,8 @@ shot {
 }
 
 task ktlint(type: JavaExec) {
-  main = "com.github.shyiko.ktlint.Main"
+  description = "Check Kotlin code style."
+  main = "com.pinterest.ktlint.Main"
   classpath = configurations.ktlint
   args "src/**/*.kt"
 }
@@ -99,7 +100,8 @@ task ktlint(type: JavaExec) {
 check.dependsOn ktlint
 
 task ktlintFormat(type: JavaExec) {
-  main = "com.github.shyiko.ktlint.Main"
+  description = "Fix Kotlin code style deviations."
+  main = "com.pinterest.ktlint.Main"
   classpath = configurations.ktlint
   args "-F", "src/**/*.kt"
 }
