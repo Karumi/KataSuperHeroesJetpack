@@ -28,7 +28,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), KodeinAw
     abstract val toolbarView: Toolbar
     abstract val activityModules: Kodein.Module
     abstract val viewModel: AndroidViewModel
-    protected lateinit var binding: T
+    private lateinit var binding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

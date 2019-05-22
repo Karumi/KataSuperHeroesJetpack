@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
 import com.karumi.jetpack.superheroes.ui.view.SingleLiveEvent
@@ -15,7 +16,7 @@ class SuperHeroesViewModel(
 
     val isLoading = MutableLiveData<Boolean>()
     val isShowingEmptyCase = MutableLiveData<Boolean>()
-    val superHeroes = MediatorLiveData<List<SuperHero>>()
+    val superHeroes = MediatorLiveData<PagedList<SuperHero>>()
     val idOfSuperHeroToOpen = SingleLiveEvent<String>()
 
     fun prepare() {
