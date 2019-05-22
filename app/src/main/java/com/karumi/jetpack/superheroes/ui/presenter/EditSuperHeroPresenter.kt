@@ -70,8 +70,8 @@ class EditSuperHeroPresenter(
 
     interface View {
         fun close()
-        fun showLoading()
         fun hideLoading()
+        fun showLoading()
         fun showSuperHero(superHero: SuperHero)
     }
 }

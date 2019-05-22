@@ -45,8 +45,8 @@ class SuperHeroDetailPresenter(
     }
 
     interface View {
-        fun showLoading()
         fun hideLoading()
+        fun showLoading()
         fun showSuperHero(superHero: SuperHero)
         fun openEditSuperHero(superHeroId: String)
     }
