@@ -6,6 +6,7 @@
   <data>
 
     <import type="android.view.View" />
+    <import type="androidx.lifecycle.LiveData" />
 
     <variable
       name="listener"
@@ -13,15 +14,15 @@
 
     <variable
       name="superHero"
-      type="com.karumi.jetpack.superheroes.domain.model.SuperHero" />
+      type="LiveData&lt;com.karumi.jetpack.superheroes.domain.model.SuperHero&gt;" />
 
     <variable
       name="editableSuperHero"
-      type="com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter.EditableSuperHero" />
+      type="LiveData&lt;com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter.EditableSuperHero&gt;" />
 
     <variable
       name="isLoading"
-      type="boolean" />
+      type="LiveData&lt;Boolean&gt;" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,14 +6,15 @@
   <data>
 
     <import type="android.view.View" />
+    <import type="androidx.lifecycle.LiveData" />
 
     <variable
       name="isLoading"
-      type="boolean" />
+      type="LiveData&lt;Boolean&gt;" />
 
     <variable
       name="isShowingEmptyCase"
-      type="boolean" />
+      type="LiveData&lt;Boolean&gt;" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout

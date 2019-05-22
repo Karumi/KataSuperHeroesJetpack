@@ -6,6 +6,8 @@
   <data>
 
     <import type="android.view.View" />
+    <import type="androidx.lifecycle.LiveData" />
+    <import type="com.karumi.jetpack.superheroes.domain.model.SuperHero" />
 
     <variable
       name="listener"
@@ -13,11 +15,11 @@
 
     <variable
       name="superHero"
-      type="com.karumi.jetpack.superheroes.domain.model.SuperHero" />
+      type="LiveData&lt;SuperHero&gt;" />
 
     <variable
       name="isLoading"
-      type="boolean" />
+      type="LiveData&lt;Boolean&gt;" />
 
   </data>
 

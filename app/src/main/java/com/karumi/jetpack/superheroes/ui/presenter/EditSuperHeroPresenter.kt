@@ -1,67 +1,55 @@
 package com.karumi.jetpack.superheroes.ui.presenter
 
-import androidx.lifecycle.Lifecycle.Event.ON_DESTROY
-import androidx.lifecycle.Lifecycle.Event.ON_RESUME
+import androidx.lifecycle.Lifecycle.Event.ON_CREATE
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
-import com.karumi.jetpack.superheroes.common.weak
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
-import java.util.concurrent.ExecutorService
 
 class EditSuperHeroPresenter(
-    view: View,
     private val getSuperHeroById: GetSuperHeroById,
-    private val saveSuperHero: SaveSuperHero,
-    private val executor: ExecutorService
+    private val saveSuperHero: SaveSuperHero
 ) : EditSuperHeroListener, LifecycleObserver {
 
-    private val view: View? by weak(view)
     private lateinit var id: String
-    private var superHero: SuperHero? = null
+    val isLoading = MutableLiveData<Boolean>()
+    val superHero = MediatorLiveData<SuperHero?>()
+    val editableSuperHero = MutableLiveData<EditableSuperHero>()
+    val isClosing = MutableLiveData<Boolean>()
 
     fun preparePresenter(id: String) {
         this.id = id
     }
 
-    @OnLifecycleEvent(ON_RESUME)
-    fun onResume() {
-        view?.showLoading()
-        refreshSuperHero()
-    }
+    @OnLifecycleEvent(ON_CREATE)
+    fun onCreate() {
+        isLoading.postValue(true)
+        val superHeroSource = getSuperHeroById(id)
+        superHero.addSource(superHeroSource) {
+            superHero.removeSource(superHeroSource)
 
-    @OnLifecycleEvent(ON_DESTROY)
-    fun onDestroy() {
-        executor.shutdownNow()
+            superHero.postValue(it)
+            editableSuperHero.postValue(it?.toEditable())
+            isLoading.postValue(false)
+        }
     }
 
     override fun onSaveSuperHeroSelected(
-        editableSuperHero: EditSuperHeroPresenter.EditableSuperHero
+        editableSuperHero: EditableSuperHero
     ) {
-        saveSuperHero(editableSuperHero)
+        val updatedSuperHero = getUpdatedSuperHero() ?: return
+
+        isLoading.value = true
+        saveSuperHero(updatedSuperHero)
+        isClosing.value = true
     }
 
-    private fun saveSuperHero(
-        editableSuperHero: EditSuperHeroPresenter.EditableSuperHero
-    ) = executor.submit {
-        view?.showLoading()
-        val superHero = superHero ?: return@submit
-        saveSuperHero(
-            superHero.copy(
-                name = editableSuperHero.name,
-                description = editableSuperHero.description,
-                isAvenger = editableSuperHero.isAvenger
-            )
-        )
-        view?.close()
-    }
-
-    private fun refreshSuperHero() = executor.submit {
-        val superHero = getSuperHeroById(id) ?: return@submit
-        view?.hideLoading()
-        view?.showSuperHero(superHero)
-        this@EditSuperHeroPresenter.superHero = superHero
+    private fun getUpdatedSuperHero(): SuperHero? {
+        val superHero = superHero.value ?: return null
+        return editableSuperHero.value?.applyTo(superHero)
     }
 
     data class EditableSuperHero(
@@ -70,12 +58,9 @@ class EditSuperHeroPresenter(
         var description: String
     )
 
-    interface View {
-        fun close()
-        fun hideLoading()
-        fun showLoading()
-        fun showSuperHero(superHero: SuperHero)
-    }
+    private fun SuperHero.toEditable() = EditableSuperHero(isAvenger, name, description)
+    private fun EditableSuperHero.applyTo(superHero: SuperHero) =
+        superHero.copy(isAvenger = isAvenger, name = name, description = description)
 }
 
 interface EditSuperHeroListener {

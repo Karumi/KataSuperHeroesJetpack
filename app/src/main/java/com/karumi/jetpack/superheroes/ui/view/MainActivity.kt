@@ -2,6 +2,7 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.common.module
@@ -15,7 +16,7 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
 
-class MainActivity : BaseActivity<MainActivityBinding>(), SuperHeroesPresenter.View {
+class MainActivity : BaseActivity<MainActivityBinding>() {
 
     override val presenter: SuperHeroesPresenter by instance()
     private lateinit var adapter: SuperHeroesAdapter
@@ -27,11 +28,14 @@ class MainActivity : BaseActivity<MainActivityBinding>(), SuperHeroesPresenter.V
         super.onCreate(savedInstanceState)
         initializeAdapter()
         initializeRecyclerView()
+        presenter.superHeroes.observe(this, Observer { showSuperHeroes(it) })
+        presenter.idOfSuperHeroToOpen.observe(this, Observer { openDetail(it) })
     }
 
     override fun configureBinding(binding: MainActivityBinding) {
-        binding.isLoading = false
-        binding.isShowingEmptyCase = false
+        binding.isLoading = presenter.isLoading
+        binding.isShowingEmptyCase = presenter.isShowingEmptyCase
+        binding.lifecycleOwner = this
     }
 
     private fun initializeAdapter() {
@@ -44,25 +48,13 @@ class MainActivity : BaseActivity<MainActivityBinding>(), SuperHeroesPresenter.V
         recycler_view.adapter = adapter
     }
 
-    override fun showLoading() = runOnUiThread {
-        binding.isLoading = true
-    }
-
-    override fun hideLoading() = runOnUiThread {
-        binding.isLoading = false
-    }
-
-    override fun showEmptyCase() = runOnUiThread {
-        binding.isShowingEmptyCase = true
-    }
-
-    override fun showSuperHeroes(superHeroes: List<SuperHero>) = runOnUiThread {
+    private fun showSuperHeroes(superHeroes: List<SuperHero>) = runOnUiThread {
         adapter.clear()
         adapter.addAll(superHeroes)
         adapter.notifyDataSetChanged()
     }
 
-    override fun openDetail(id: String) = runOnUiThread {
+    private fun openDetail(id: String) = runOnUiThread {
         SuperHeroDetailActivity.open(
             activity = this,
             superHeroId = id
@@ -71,7 +63,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(), SuperHeroesPresenter.V
 
     override val activityModules = module {
         bind<SuperHeroesPresenter>() with provider {
-            SuperHeroesPresenter(this@MainActivity, instance(), instance())
+            SuperHeroesPresenter(instance())
         }
         bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
     }

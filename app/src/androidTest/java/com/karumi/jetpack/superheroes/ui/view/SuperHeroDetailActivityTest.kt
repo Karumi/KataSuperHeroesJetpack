@@ -2,6 +2,7 @@ package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Bundle
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
+import com.karumi.jetpack.superheroes.data.singleValueLiveData
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
@@ -40,7 +41,7 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
         val superHeroName = "SuperHero"
         val superHeroDescription = "Super Hero Description"
         val superHero = SuperHero(superHeroId, superHeroName, null, isAvenger, superHeroDescription)
-        whenever(repository.get(superHeroId)).thenReturn(superHero)
+        whenever(repository.get(superHeroId)).thenReturn(singleValueLiveData(superHero))
         return superHero
     }
 

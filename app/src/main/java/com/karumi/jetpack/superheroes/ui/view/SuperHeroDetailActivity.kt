@@ -3,10 +3,10 @@ package com.karumi.jetpack.superheroes.ui.view
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.databinding.SuperHeroDetailActivityBinding
-import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroDetailPresenter
 import kotlinx.android.synthetic.main.super_hero_detail_activity.*
@@ -15,8 +15,7 @@ import org.kodein.di.erased.instance
 import org.kodein.di.erased.provider
 
 class SuperHeroDetailActivity :
-    BaseActivity<SuperHeroDetailActivityBinding>(),
-    SuperHeroDetailPresenter.View {
+    BaseActivity<SuperHeroDetailActivityBinding>() {
     companion object {
         private const val SUPER_HERO_ID_KEY = "super_hero_id_key"
 
@@ -35,34 +34,25 @@ class SuperHeroDetailActivity :
 
     override fun configureBinding(binding: SuperHeroDetailActivityBinding) {
         binding.listener = presenter
-        binding.isLoading = false
+        binding.isLoading = presenter.isLoading
+        binding.superHero = presenter.superHero
+        binding.lifecycleOwner = this
     }
 
     override fun prepare(intent: Intent?) {
         title = superHeroId
         presenter.preparePresenter(superHeroId)
+        presenter.superHero.observe(this, Observer { title = it?.name })
+        presenter.idOfSuperHeroToEdit.observe(this, Observer { openEditSuperHero(it) })
     }
 
-    override fun showLoading() = runOnUiThread {
-        binding.isLoading = true
-    }
-
-    override fun hideLoading() = runOnUiThread {
-        binding.isLoading = false
-    }
-
-    override fun showSuperHero(superHero: SuperHero) = runOnUiThread {
-        title = superHero.name
-        binding.superHero = superHero
-    }
-
-    override fun openEditSuperHero(superHeroId: String) = runOnUiThread {
+    private fun openEditSuperHero(superHeroId: String) = runOnUiThread {
         EditSuperHeroActivity.open(this, superHeroId)
     }
 
     override val activityModules = module {
         bind<SuperHeroDetailPresenter>() with provider {
-            SuperHeroDetailPresenter(this@SuperHeroDetailActivity, instance(), instance())
+            SuperHeroDetailPresenter(instance())
         }
         bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
     }

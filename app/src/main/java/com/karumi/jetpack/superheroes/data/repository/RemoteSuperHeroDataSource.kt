@@ -1,5 +1,7 @@
 package com.karumi.jetpack.superheroes.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import java.util.concurrent.ExecutorService
 
@@ -16,14 +18,22 @@ class RemoteSuperHeroDataSource(
         superHeroes = fakeData().associateBy { it.id }.toMutableMap()
     }
 
-    fun getAllSuperHeroes(): List<SuperHero> {
-        waitABit()
-        return superHeroes.values.toList().sortedBy { it.id }
+    fun getAllSuperHeroes(): LiveData<List<SuperHero>> {
+        val allSuperHeroes = MutableLiveData<List<SuperHero>>()
+        executor.execute {
+            waitABit()
+            allSuperHeroes.postValue(superHeroes.values.toList().sortedBy { it.id })
+        }
+        return allSuperHeroes
     }
 
-    fun get(id: String): SuperHero? {
-        waitABit()
-        return superHeroes[id]
+    fun get(id: String): LiveData<SuperHero?> {
+        val superHero = MutableLiveData<SuperHero?>()
+        executor.execute {
+            waitABit()
+            superHero.postValue(superHeroes[id])
+        }
+        return superHero
     }
 
     fun save(superHero: SuperHero): SuperHero {
