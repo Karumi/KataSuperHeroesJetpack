@@ -43,6 +43,7 @@
         android:id="@+id/iv_super_hero_photo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/super_hero_detail_header_height"
+        app:imageUrl="@{ superHero.photo }"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:background="@color/color_primary_dark"
         tools:ignore="ContentDescription" />
