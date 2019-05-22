@@ -1,7 +1,6 @@
 package com.karumi.jetpack.superheroes
 
 import android.app.Application
-import androidx.room.Room
 import com.karumi.jetpack.superheroes.common.SuperHeroesDatabase
 import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.data.repository.LocalSuperHeroDataSource
@@ -35,12 +34,7 @@ class SuperHeroesApplication : Application(), KodeinAware {
 
     private fun appDependencies(): Kodein.Module = module {
         bind<SuperHeroesDatabase>() with singleton {
-            Room.databaseBuilder(
-                this@SuperHeroesApplication,
-                SuperHeroesDatabase::class.java,
-                "superheroes-db"
-            ).fallbackToDestructiveMigration()
-                .build()
+            SuperHeroesDatabase.build(this@SuperHeroesApplication)
         }
         bind<SuperHeroDao>() with provider {
             val database: SuperHeroesDatabase = instance()

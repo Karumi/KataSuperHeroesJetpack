@@ -1,0 +1,58 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "4250c22060f75f31b611cfdc08f9177d",
+    "entities": [
+      {
+        "tableName": "superheroes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`superhero_id` TEXT NOT NULL, `superhero_name` TEXT NOT NULL, `superhero_photo` TEXT, `superhero_isAvenger` INTEGER NOT NULL, `superhero_description` TEXT NOT NULL, PRIMARY KEY(`superhero_id`))",
+        "fields": [
+          {
+            "fieldPath": "superHero.id",
+            "columnName": "superhero_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "superHero.name",
+            "columnName": "superhero_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "superHero.photo",
+            "columnName": "superhero_photo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "superHero.isAvenger",
+            "columnName": "superhero_isAvenger",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "superHero.description",
+            "columnName": "superhero_description",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "superhero_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4250c22060f75f31b611cfdc08f9177d\")"
+    ]
+  }
+}

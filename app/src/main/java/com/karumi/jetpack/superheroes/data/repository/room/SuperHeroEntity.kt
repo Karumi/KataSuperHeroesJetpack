@@ -1,13 +1,10 @@
 package com.karumi.jetpack.superheroes.data.repository.room
 
+import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.karumi.jetpack.superheroes.domain.model.SuperHero
 
-@Entity(tableName = "superheroes")
+@Entity(tableName = "superheroes", primaryKeys = ["superhero_id"])
 data class SuperHeroEntity(
-    @PrimaryKey val id: String,
-    val name: String,
-    val photo: String?,
-    val isAvenger: Boolean,
-    val description: String
+    @Embedded(prefix = "superhero_") val superHero: SuperHero
 )
