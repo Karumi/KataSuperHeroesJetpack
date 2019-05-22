@@ -7,11 +7,11 @@ import androidx.paging.PagedList
 import com.karumi.jetpack.superheroes.data.repository.room.SuperHeroDao
 import com.karumi.jetpack.superheroes.data.repository.room.SuperHeroEntity
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executor
 
 class LocalSuperHeroDataSource(
     private val dao: SuperHeroDao,
-    private val executor: ExecutorService
+    private val executor: Executor
 ) {
     fun getAllSuperHeroes(
         pageSize: Int,
@@ -34,6 +34,8 @@ class LocalSuperHeroDataSource(
         executor.execute { dao.update(superHero.toEntity()) }
         return superHero
     }
+
+    fun deleteRandomHalf() = dao.deleteHalf()
 
     private fun SuperHeroEntity.toSuperHero(): SuperHero = superHero
     private fun SuperHero.toEntity(): SuperHeroEntity = SuperHeroEntity(this)
