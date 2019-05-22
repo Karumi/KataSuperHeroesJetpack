@@ -1,16 +1,15 @@
 package com.karumi.jetpack.superheroes.ui.view
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.SuperHeroesApplication
 import org.junit.Before
-import org.junit.Rule
 import org.junit.runner.RunWith
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
@@ -20,15 +19,9 @@ import java.util.concurrent.Executor
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-abstract class AcceptanceTest<T : Activity>(clazz: Class<T>) : ScreenshotTest {
+abstract class FragmentTest<F : Fragment> : ScreenshotTest {
 
-    companion object {
-        private const val doNotLaunchActivityAtLunch = false
-    }
-
-    @Rule
-    @JvmField
-    val testRule: IntentsTestRule<T> = IntentsTestRule(clazz, true, doNotLaunchActivityAtLunch)
+    abstract val fragmentBlock: () -> F
 
     @Before
     fun setup() {
@@ -42,10 +35,10 @@ abstract class AcceptanceTest<T : Activity>(clazz: Class<T>) : ScreenshotTest {
         })
     }
 
-    fun startActivity(args: Bundle = Bundle()): T {
-        val intent = Intent()
-        intent.putExtras(args)
-        return testRule.launchActivity(intent)
+    protected fun startFragment(args: Bundle? = null): F {
+        val fragment = fragmentBlock()
+        launchFragmentInContainer(args, R.style.AppTheme) { fragment as Fragment }
+        return fragment
     }
 
     abstract val testDependencies: Kodein.Module

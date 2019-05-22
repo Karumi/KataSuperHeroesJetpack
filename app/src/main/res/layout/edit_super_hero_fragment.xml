@@ -20,19 +20,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="?attr/colorPrimary"
-      android:theme="@style/AppTheme.AppBarOverlay"
-      app:layout_constraintTop_toTopOf="parent"
-      app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     <ScrollView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:layout_constraintTop_toBottomOf="@id/toolbar">
+      app:layout_constraintTop_toTopOf="parent">
 
       <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

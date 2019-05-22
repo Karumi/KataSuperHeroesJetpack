@@ -15,14 +15,14 @@ class SuperHeroDetailViewModel(
 
     val isLoading = MutableLiveData<Boolean>()
     val superHero = MediatorLiveData<SuperHero?>()
-    val idOfSuperHeroToEdit = SingleLiveEvent<String>()
+    val superHeroToEdit = SingleLiveEvent<SuperHeroToEdit>()
 
     fun prepare(id: String) {
         loadSuperHero(id)
     }
 
     fun onEditSelected() {
-        idOfSuperHeroToEdit.value = superHero.value?.id
+        superHeroToEdit.value = superHero.value?.let { SuperHeroToEdit(it.id, it.name) }
     }
 
     private fun loadSuperHero(id: String) {
@@ -33,3 +33,5 @@ class SuperHeroDetailViewModel(
         }
     }
 }
+
+data class SuperHeroToEdit(val id: String, val name: String)

@@ -15,28 +15,18 @@
 
   <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.karumi.jetpack.superheroes.ui.view.SuperHeroDetailActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
-
-      <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
       <ImageView
         android:id="@+id/iv_super_hero_photo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/super_hero_detail_header_height"
         app:imageUrl="@{ viewModel.superHero.photo }"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/color_primary_dark"
         tools:ignore="ContentDescription" />
 

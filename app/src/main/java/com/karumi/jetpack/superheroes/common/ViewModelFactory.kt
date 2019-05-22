@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.karumi.jetpack.superheroes.ui.view.BaseActivity
+import com.karumi.jetpack.superheroes.ui.view.BaseFragment
 import org.kodein.di.DKodein
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -26,7 +26,7 @@ class ViewModelFactory(
 
 inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM>
         where T : KodeinAware,
-              T : BaseActivity<*> {
+              T : BaseFragment<*> {
     return lazy { ViewModelProviders.of(this, direct.instance()).get(VM::class.java) }
 }
 

@@ -11,12 +11,11 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.mockito.Mock
 
-class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
-    SuperHeroDetailActivity::class.java
-) {
+class SuperHeroDetailFragmentTest : FragmentTest<SuperHeroDetailFragment>() {
 
     @Mock
     private lateinit var repository: SuperHeroRepository
+    override val fragmentBlock = { SuperHeroDetailFragment() }
 
     @Test
     fun showsAvengersBadgeIfSuperHeroIsPartOfTheAvengersTeam() {
@@ -45,10 +44,12 @@ class SuperHeroDetailActivityTest : AcceptanceTest<SuperHeroDetailActivity>(
         return superHero
     }
 
-    private fun startActivity(superHero: SuperHero): SuperHeroDetailActivity {
-        val args = Bundle()
-        args.putString("super_hero_id_key", superHero.id)
-        return startActivity(args)
+    private fun startActivity(superHero: SuperHero): SuperHeroDetailFragment {
+        val args = Bundle().apply {
+            putString("superHeroId", superHero.id)
+            putString("superHeroName", superHero.name)
+        }
+        return startFragment(args)
     }
 
     override val testDependencies = Kodein.Module("Test dependencies", allowSilentOverride = true) {

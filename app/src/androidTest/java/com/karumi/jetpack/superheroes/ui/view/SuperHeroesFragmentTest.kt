@@ -1,6 +1,7 @@
 package com.karumi.jetpack.superheroes.ui.view
 
 import android.os.Looper
+import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
 import com.karumi.jetpack.superheroes.data.repository.SuperHeroRepository
@@ -14,7 +15,7 @@ import org.kodein.di.erased.instance
 import org.mockito.Mock
 import java.util.concurrent.Executors.newSingleThreadExecutor
 
-class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) {
+class SuperHeroesFragmentTest : FragmentTest<SuperHeroesFragment>() {
 
     companion object {
         private const val ANY_NUMBER_OF_SUPER_HEROES = 100
@@ -22,12 +23,13 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
 
     @Mock
     private lateinit var repository: SuperHeroRepository
+    override val fragmentBlock = { SuperHeroesFragment() }
 
     @Test
     fun showsEmptyCaseIfThereAreNoSuperHeroes() {
         givenThereAreNoSuperHeroes()
 
-        val activity = startActivity()
+        val activity = startFragment()
 
         compareScreenshot(activity)
     }
@@ -36,7 +38,7 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
     fun showsJustOneSuperHero() {
         givenThereAreSomeSuperHeroes(1)
 
-        val activity = startActivity()
+        val activity = startFragment()
 
         compareScreenshot(activity)
     }
@@ -45,7 +47,7 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
     fun showsSuperHeroesIfThereAreSomeSuperHeroes() {
         givenThereAreSomeSuperHeroes(ANY_NUMBER_OF_SUPER_HEROES)
 
-        val activity = startActivity()
+        val activity = startFragment()
 
         compareScreenshot(activity)
     }
@@ -54,7 +56,7 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
     fun showsAvengersBadgeIfASuperHeroIsPartOfTheAvengersTeam() {
         givenThereAreSomeAvengers(ANY_NUMBER_OF_SUPER_HEROES)
 
-        val activity = startActivity()
+        val activity = startFragment()
 
         compareScreenshot(activity)
     }
@@ -63,14 +65,14 @@ class MainActivityTest : AcceptanceTest<MainActivity>(MainActivity::class.java) 
     fun doesNotShowAvengersBadgeIfASuperHeroIsNotPartOfTheAvengersTeam() {
         givenThereAreSomeSuperHeroes(ANY_NUMBER_OF_SUPER_HEROES)
 
-        val activity = startActivity()
+        val activity = startFragment()
 
         compareScreenshot(activity)
     }
 
-    private fun compareScreenshot(activity: MainActivity) {
+    override fun compareScreenshot(fragment: Fragment) {
         Thread.sleep(100)
-        super.compareScreenshot(activity)
+        super.compareScreenshot(fragment)
     }
 
     private fun givenThereAreSomeAvengers(numberOfAvengers: Int): List<SuperHero> =
