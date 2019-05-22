@@ -15,12 +15,8 @@ class SuperHeroDetailPresenter(
 
     private lateinit var id: String
 
-    fun preparePresenter(id: String?) {
-        if (id != null) {
-            this.id = id
-        } else {
-            view?.close()
-        }
+    fun preparePresenter(id: String) {
+        this.id = id
     }
 
     fun onResume() {
@@ -43,7 +39,6 @@ class SuperHeroDetailPresenter(
     }
 
     interface View {
-        fun close()
         fun showLoading()
         fun hideLoading()
         fun showSuperHero(superHero: SuperHero)

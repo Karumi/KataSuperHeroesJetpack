@@ -17,12 +17,8 @@ class EditSuperHeroPresenter(
     private lateinit var id: String
     private var superHero: SuperHero? = null
 
-    fun preparePresenter(id: String?) {
-        if (id != null) {
-            this.id = id
-        } else {
-            view?.close()
-        }
+    fun preparePresenter(id: String) {
+        this.id = id
     }
 
     fun onResume() {

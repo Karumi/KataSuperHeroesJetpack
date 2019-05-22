@@ -54,8 +54,6 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         presenter.preparePresenter(superHeroId)
     }
 
-    override fun close() = runOnUiThread { finish() }
-
     override fun showLoading() = runOnUiThread {
         progress_bar.visibility = View.VISIBLE
     }
@@ -69,7 +67,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         tv_super_hero_name.text = superHero.name
         tv_super_hero_description.text = superHero.description
         iv_avengers_badge.visibility =
-                if (superHero.isAvenger) View.VISIBLE else View.GONE
+            if (superHero.isAvenger) View.VISIBLE else View.GONE
         iv_super_hero_photo.setImageBackground(superHero.photo)
         edit_super_hero.visibility = View.VISIBLE
         super_hero_background.visibility = View.VISIBLE
