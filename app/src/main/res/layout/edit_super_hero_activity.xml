@@ -6,23 +6,11 @@
   <data>
 
     <import type="android.view.View" />
-    <import type="androidx.lifecycle.LiveData" />
+    <import type="com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroViewModel" />
 
     <variable
-      name="listener"
-      type="com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroListener" />
-
-    <variable
-      name="superHero"
-      type="LiveData&lt;com.karumi.jetpack.superheroes.domain.model.SuperHero&gt;" />
-
-    <variable
-      name="editableSuperHero"
-      type="LiveData&lt;com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter.EditableSuperHero&gt;" />
-
-    <variable
-      name="isLoading"
-      type="LiveData&lt;Boolean&gt;" />
+      name="viewModel"
+      type="EditSuperHeroViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +39,7 @@
           android:id="@+id/iv_super_hero_photo"
           android:layout_width="match_parent"
           android:layout_height="@dimen/super_hero_detail_header_height"
-          app:imageUrl="@{ superHero.photo }"
+          app:imageUrl="@{ viewModel.superHero.photo }"
           app:layout_constraintTop_toTopOf="parent"
           tools:background="@color/color_primary_dark"
           tools:ignore="ContentDescription" />
@@ -61,7 +49,7 @@
           android:layout_width="0dp"
           android:layout_height="0dp"
           android:background="@drawable/super_hero_gradient"
-          android:visibility="@{ superHero == null ? View.GONE : View.VISIBLE }"
+          android:visibility="@{ viewModel.superHero == null ? View.GONE : View.VISIBLE }"
           app:layout_constraintBottom_toBottomOf="@id/iv_super_hero_photo"
           app:layout_constraintEnd_toEndOf="@id/iv_super_hero_photo"
           app:layout_constraintStart_toStartOf="@id/iv_super_hero_photo"
@@ -74,8 +62,8 @@
           android:layout_height="wrap_content"
           android:layout_margin="8dp"
           android:buttonTint="@color/white"
-          android:checked="@={ editableSuperHero.avenger, default = false }"
-          android:enabled="@{ superHero != null }"
+          android:checked="@={ viewModel.editableSuperHero.avenger, default = false }"
+          android:enabled="@{ viewModel.superHero != null }"
           android:text="@string/is_super_hero_an_avenger_checkbox"
           android:textColor="@color/white"
           app:layout_constraintTop_toBottomOf="@id/iv_super_hero_photo"
@@ -94,11 +82,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:enabled="@{ superHero != null }"
+            android:enabled="@{ viewModel.superHero != null }"
             android:hint="@string/edit_super_hero_name_hint"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:text="@={ editableSuperHero.name }"
+            android:text="@={ viewModel.editableSuperHero.name }"
             android:textColor="@color/white"
             tools:ignore="UnusedAttribute" />
 
@@ -117,12 +105,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:enabled="@{ superHero != null }"
+            android:enabled="@{ viewModel.superHero != null }"
             android:hint="@string/edit_super_hero_description_hint"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
-            android:text="@={ editableSuperHero.description }"
+            android:text="@={ viewModel.editableSuperHero.description }"
             android:textColor="@color/white"
             tools:ignore="UnusedAttribute" />
 
@@ -144,7 +132,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerInParent="true"
-      android:visibility="@{ isLoading ? View.VISIBLE : View.GONE }"
+      android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE }"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -155,8 +143,8 @@
       android:layout_width="0dp"
       android:layout_height="56dp"
       android:background="@color/royal_blue"
-      android:enabled="@{ superHero != null }"
-      android:onClick="@{ () -> listener.onSaveSuperHeroSelected(editableSuperHero) }"
+      android:enabled="@{ viewModel.superHero != null }"
+      android:onClick="@{ () -> viewModel.onSaveSuperHeroSelected() }"
       android:text="@string/save_edited_super_hero_button"
       android:textColor="@color/white"
       app:layout_constraintBottom_toBottomOf="parent"

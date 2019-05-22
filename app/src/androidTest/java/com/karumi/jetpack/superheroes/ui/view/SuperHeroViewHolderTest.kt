@@ -6,7 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.databinding.SuperHeroRowBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
-import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
+import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesViewModel
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroViewHolder
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -61,7 +61,7 @@ class SuperHeroViewHolderTest : ScreenshotTest {
                 DataBindingUtil.inflate(inflater, R.layout.super_hero_row, null, false)
             SuperHeroViewHolder(
                 binding,
-                mock<SuperHeroesPresenter>(SuperHeroesPresenter::class.java)
+                mock<SuperHeroesViewModel>(SuperHeroesViewModel::class.java)
             )
         }
 

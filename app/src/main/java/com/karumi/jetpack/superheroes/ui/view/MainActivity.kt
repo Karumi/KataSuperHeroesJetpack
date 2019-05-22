@@ -5,11 +5,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karumi.jetpack.superheroes.R
+import com.karumi.jetpack.superheroes.common.bindViewModel
 import com.karumi.jetpack.superheroes.common.module
+import com.karumi.jetpack.superheroes.common.viewModel
 import com.karumi.jetpack.superheroes.databinding.MainActivityBinding
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroes
-import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesPresenter
+import com.karumi.jetpack.superheroes.ui.presenter.SuperHeroesViewModel
 import com.karumi.jetpack.superheroes.ui.view.adapter.SuperHeroesAdapter
 import kotlinx.android.synthetic.main.main_activity.*
 import org.kodein.di.erased.bind
@@ -18,7 +20,7 @@ import org.kodein.di.erased.provider
 
 class MainActivity : BaseActivity<MainActivityBinding>() {
 
-    override val presenter: SuperHeroesPresenter by instance()
+    private val viewModel: SuperHeroesViewModel by viewModel()
     private lateinit var adapter: SuperHeroesAdapter
     override val layoutId: Int = R.layout.main_activity
     override val toolbarView: Toolbar
@@ -28,18 +30,17 @@ class MainActivity : BaseActivity<MainActivityBinding>() {
         super.onCreate(savedInstanceState)
         initializeAdapter()
         initializeRecyclerView()
-        presenter.superHeroes.observe(this, Observer { showSuperHeroes(it) })
-        presenter.idOfSuperHeroToOpen.observe(this, Observer { openDetail(it) })
+        viewModel.superHeroes.observe(this, Observer { showSuperHeroes(it) })
+        viewModel.idOfSuperHeroToOpen.observe(this, Observer { openDetail(it) })
+        viewModel.prepare()
     }
 
     override fun configureBinding(binding: MainActivityBinding) {
-        binding.isLoading = presenter.isLoading
-        binding.isShowingEmptyCase = presenter.isShowingEmptyCase
-        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
     }
 
     private fun initializeAdapter() {
-        adapter = SuperHeroesAdapter(presenter)
+        adapter = SuperHeroesAdapter(viewModel)
     }
 
     private fun initializeRecyclerView() {
@@ -62,8 +63,8 @@ class MainActivity : BaseActivity<MainActivityBinding>() {
     }
 
     override val activityModules = module {
-        bind<SuperHeroesPresenter>() with provider {
-            SuperHeroesPresenter(instance())
+        bindViewModel<SuperHeroesViewModel>() with provider {
+            SuperHeroesViewModel(instance(), instance())
         }
         bind<GetSuperHeroes>() with provider { GetSuperHeroes(instance()) }
     }
