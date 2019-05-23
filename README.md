@@ -37,7 +37,7 @@ To verify the correct behaviour of your code you can execute:
 To be able to get a deterministic test scenario all our tests will be executed on the same emulated device. Run the following to create an emulator like the one we used to get all the reference screenshots:
 
 ```shell
-./script/start_emulator.sh
+./scripts/start_emulator.sh
 ```
 
 ## Tasks
