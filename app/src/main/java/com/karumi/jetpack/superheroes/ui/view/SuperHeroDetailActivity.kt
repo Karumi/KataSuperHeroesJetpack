@@ -28,7 +28,7 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
         }
     }
 
-    private val presenter: SuperHeroDetailPresenter by instance()
+    override val presenter: SuperHeroDetailPresenter by instance()
     override val layoutId: Int = R.layout.super_hero_detail_activity
     override val toolbarView: Toolbar
         get() = toolbar
@@ -37,16 +37,6 @@ class SuperHeroDetailActivity : BaseActivity(), SuperHeroDetailPresenter.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         edit_super_hero.setOnClickListener { presenter.onEditSelected() }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDestroy()
     }
 
     override fun prepare(intent: Intent?) {
