@@ -1,5 +1,6 @@
 language: android
-sudo: required
+dist: xenial
+os: linux
 env:
   global:
     - ADB_INSTALL_TIMEOUT=8 # 8 minutes (2 minutes by default)
@@ -29,6 +30,8 @@ before_script:
   - adb shell settings put global transition_animation_scale 0 &
   - adb shell settings put global animator_duration_scale 0 &
   - adb shell input keyevent 82 &
+  - adb shell "su 0 am start -a android.intent.action.REBOOT"
+  - android-wait-for-emulator
 
 script:
   - ./gradlew ktlint build executeScreenshotTests -Pcom.android.threadPoolSize=1 -Dorg.gradle.parallel=false -Dorg.gradle.jvmargs="-Xms1024m -Xmx1024m" -Dorg.gradle.daemon=false
