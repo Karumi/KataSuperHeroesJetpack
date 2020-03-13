@@ -4,7 +4,7 @@ os: linux
 env:
   global:
     - ADB_INSTALL_TIMEOUT=8 # 8 minutes (2 minutes by default)
-
+    - ANDROID_ABI=armeabi-v7a
 jdk:
   - oraclejdk8
 
