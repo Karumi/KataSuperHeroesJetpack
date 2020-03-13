@@ -1,5 +1,5 @@
 language: android
-dist: xenial
+dist: trusty
 os: linux
 env:
   global:
@@ -18,9 +18,10 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-27
+    - sys-img-x86-android-27
 
 before_script:
-  - echo no | android create avd --force -n test -t android-27 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-27 --abi x86
   - mksdcard -l sdcard 100M sdcard
   - emulator -avd test -no-audio -no-window -sdcard sdcard &
   - adb shell settings put global window_animation_scale 0 &
