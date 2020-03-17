@@ -22,3 +22,4 @@ echo "Editing emulator configuration..."
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cp $DIR/config.ini ~/.android/avd/screenshot-test.avd/config.ini
 echo "Emulator edited!"
+cat ~/.android/avd/screenshot-test.avd/config.ini
