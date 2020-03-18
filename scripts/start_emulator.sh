@@ -13,7 +13,7 @@ if $ANDROID_HOME/platform-tools/adb devices -l | grep -q emulator; then
 fi
 
 echo "Starting emulator..."
-echo "no" | $ANDROID_HOME/emulator/emulator "-avd" "screenshot-test" "-skin" "480x800" "-no-audio" "-no-boot-anim" "-port" "5554" "-no-snapshot" "-partition-size" "1024" &
+echo "no" | $ANDROID_HOME/emulator/emulator "-avd" "screenshot-test" "-no-audio" "-no-boot-anim" "-port" "5554" "-no-snapshot" "-partition-size" "1024" &
 
 $DIR/wait_for_emulator.sh
 sleep 30
