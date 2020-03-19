@@ -3,11 +3,14 @@ package com.karumi.jetpack.superheroes.ui.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.R.color.transparent
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.karumi.jetpack.superheroes.R
 import com.karumi.jetpack.superheroes.common.module
 import com.karumi.jetpack.superheroes.domain.model.SuperHero
+import com.karumi.jetpack.superheroes.common.TestConfig
 import com.karumi.jetpack.superheroes.domain.usecase.GetSuperHeroById
 import com.karumi.jetpack.superheroes.domain.usecase.SaveSuperHero
 import com.karumi.jetpack.superheroes.ui.presenter.EditSuperHeroPresenter
@@ -43,6 +46,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
                 isAvenger = cb_is_avenger.isChecked
             )
         }
+        disableEditTextCursorIfNeeded()
     }
 
     override fun onResume() {
@@ -91,5 +95,16 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         }
         bind<GetSuperHeroById>() with provider { GetSuperHeroById(instance()) }
         bind<SaveSuperHero>() with provider { SaveSuperHero(instance()) }
+    }
+
+    private fun disableEditTextCursorIfNeeded() {
+        if (TestConfig.runningTests) {
+            try {
+                val f = TextView::class.java.getDeclaredField("mCursorDrawableRes")
+                f.isAccessible = true
+                f.set(et_super_hero_name, transparent)
+            } catch (ignored: Exception) {
+            }
+        }
     }
 }
