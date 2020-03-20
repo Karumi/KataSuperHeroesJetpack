@@ -101,6 +101,7 @@ class EditSuperHeroActivity : BaseActivity(), EditSuperHeroPresenter.View {
         if (TestConfig.runningTests) {
             try {
                 val f = TextView::class.java.getDeclaredField("mCursorDrawableRes")
+                et_super_hero_name.isCursorVisible = false
                 f.isAccessible = true
                 f.set(et_super_hero_name, transparent)
             } catch (ignored: Exception) {
